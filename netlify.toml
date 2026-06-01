@@ -1,0 +1,5 @@
+# Netlify configuration file at the repository root
+# This tells Netlify to publish the "TRC/Part_1" directory which contains index.html
+
+[build]
+  publish = "TRC/Part_1"
