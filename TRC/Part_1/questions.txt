@@ -1,0 +1,154 @@
+BỘ CÂU HỎI ĐIỀN KHUYẾT CẤU TRÚC DỮ LIỆU VÀ GIẢI THUẬT
+Mức độ: Siêu khó (Chuyên sâu nâng cao) — Tài liệu lưu hành nội bộ
+PHẦN I: ĐỀ BÀI (CÂU HỎI ĐIỀN VÀO CHỖ TRỐNG)
+- Câu 1: Trong cây Đỏ-Đen (Red-Black Tree), số lượng nút đen nhiều nhất trên bất kỳ đường đi nào từ nút gốc đến một nút lá rỗng (NIL) có mối quan hệ như thế nào với chiều cao đen bh(x) của nút gốc? [..........................................................]
+- Câu 2: Khi thực hiện phép toán Union bằng thuật toán gộp theo kích thước (Union by Size) kết hợp nén đường đi (Path Compression) trong cấu trúc dữ liệu các tập hợp rời nhau (Disjoint Set Union - DSU), độ phức tạp thời gian khấu hao (amortized time complexity) cho mỗi phép toán là [..........................................................]
+- Câu 3: Trong cây Splay (Splay Tree), phép toán splay một nút lên gốc bằng chuỗi các bước xoay Zig-Zig hoặc Zag-Zag được thực hiện khi [..........................................................]
+- Câu 4: Giả sử cấu trúc dữ liệu Treap được xây dựng với các khóa tìm kiếm được duy trì theo tính chất cây tìm kiếm nhị phân (BST) và các độ ưu tiên (priorities) ngẫu nhiên được duy trì theo tính chất [..........................................................]
+- Câu 5: Trong thuật toán phân tách chuỗi nặng-nhẹ (Heavy-Light Decomposition - HLD) trên một cây có n đỉnh, bất kỳ đường đi nào giữa hai đỉnh bất kỳ trên cây sẽ bị phân tách thành tối đa [..........................................................] đoạn chuỗi nặng (heavy chains)
+- Câu 6: Thuật toán Mo (Mo's Algorithm) xử lý các truy vấn offline trên mảng kích thước n bằng cách chia mảng thành các khối có kích thước xấp xỉ √n. Sắp xếp các truy vấn theo thứ tự tăng dần của chỉ số khối thuộc đầu mút trái, và nếu cùng khối thì theo thứ tự [..........................................................] của đầu mút phải để đạt tối ưu
+- Câu 7: Bảng thưa (Sparse Table) là một cấu trúc dữ liệu cho phép trả lời các truy vấn như Tìm kiếm đoạn nhỏ nhất (RMQ) trong thời gian O(1) sau khi tiền xử lý. Tính chất cốt lõi nào của hàm toán học bắt buộc phải có để áp dụng được thời gian truy vấn hằng số này? [..........................................................]
+- Câu 8: Trong cây phân đoạn (Segment Tree) quản lý mảng n phần tử, khi áp dụng kỹ thuật Cập nhật lười (Lazy Propagation), thông tin cập nhật dạng khoảng được lưu lại tại các nút trung gian và chỉ được đẩy xuống các nút con khi [..........................................................]
+- Câu 9: Bộ lọc Bloom (Bloom Filter) là một cấu trúc dữ liệu xác suất tiết kiệm không gian được sử dụng để kiểm tra một phần tử có thuộc một tập hợp hay không. Hệ quả nào phản ánh chính xác sai số của bộ lọc này? [..........................................................]
+- Câu 10: Trong thuật toán Dinic tìm luồng cực đại trên mạng luồng, cấu trúc [..........................................................] được xây dựng tại mỗi bước lặp để tìm đường tăng luồng.
+- Câu 11: Định lý Max-Flow Min-Cut khẳng định rằng giá trị của luồng cực đại trong một mạng luồng bằng chính xác [..........................................................]
+- Câu 12: Thuật toán Hopcroft-Karp tìm cặp ghép cực đại trên đồ thị hai phía (Bipartite Matching) có độ phức tạp thời gian trong trường hợp xấu nhất là [..........................................................]
+- Câu 13: Thuật toán Tarjan tìm các thành phần liên thông mạnh (Strongly Connected Components - SCC) của đồ thị có hướng duy trì một ngăn xếp chứa các đỉnh và sử dụng chỉ số [..........................................................] để xác định đỉnh gốc của một SCC
+- Câu 14: Thuật toán Kosaraju-Sharir tìm các thành phần liên thông mạnh dựa trên việc thực hiện hai lượt duyệt DFS. Lượt DFS thứ hai được thực hiện trên cấu trúc đồ thị [..........................................................]
+- Câu 15: Trong thuật toán KMP (Knuth-Morris-Pratt) để tìm kiếm chuỗi, mảng tiền tố (thường gọi là mảng pi hoặc failure function) tại vị trí i lưu trữ thông tin [..........................................................]
+- Câu 16: Thuật toán Aho-Corasick xây dựng một cấu trúc tự động (Automaton) dựa trên cây Trie để tìm kiếm đồng thời nhiều xâu mẫu. Cạnh liên kết thất bại (Failure Link) của một nút chỉ đến nút [..........................................................]
+- Câu 17: Xây dựng mảng hậu tố (Suffix Array) cho một xâu độ dài n bằng thuật toán sắp xếp nhân đôi tiền tố (Prefix Doubling) có độ phức tạp thời gian là [..........................................................]
+- Câu 18: Cấu trúc Suffix Automaton (Đồ thị định hướng có xâu hậu tố) tối tiểu cho một xâu ký tự có độ dài n có số lượng trạng thái (nút) tối đa bị chặn trên bởi đại lượng tuyến tính [..........................................................]
+- Câu 19: Trong quy hoạch động tối ưu hóa bằng định lý Tứ giác bao (Quadrangle Inequality), điều kiện cần về chi phí w(a, d) + w(b, c) <= w(a, c) + w(b, d) với mọi a <= b <= c <= d giúp khẳng định tính chất [..........................................................] của ma trận quyết định
+- Câu 20: Kỹ thuật tối ưu hóa bao lồi (Convex Hull Trick) thường được áp dụng để tăng tốc các bài toán quy hoạch động có công thức truy hồi dạng [..........................................................]
+- Câu 21: Thuật toán nhân ma trận nhanh Strassen làm giảm độ phức tạp thời gian nhân hai ma trận kích thước n x n từ O(n^3) xuống xấp xỉ [..........................................................] bằng cách giảm số lượng phép nhân cốt lõi
+- Câu 22: Lớp các bài toán NP-đầy đủ (NP-complete) được định nghĩa là tập hợp các bài toán thỏa mãn hai điều kiện: [..........................................................]
+- Câu 23: Cấu trúc dữ liệu Cây Wavelet (Wavelet Tree) cho phép thực hiện truy vấn hiệu quả phép toán quantile(L, R, k) (tìm phần tử nhỏ thứ k trong đoạn từ L đến R). Nguyên lý phân tách cốt lõi của cây này tại mỗi nút là [..........................................................]
+- Câu 24: Trong cây Link-Cut (Link-Cut Tree) dùng để quản lý một rừng các cây động, cấu trúc cây con đóng vai trò cấu trúc phụ trợ nội bộ (represented/auxiliary trees) để lưu trữ các chuỗi đường đi dọc (Preferred Paths) thường là cây [..........................................................]
+- Câu 25: Khi thực hiện Biến đổi Fourier nhanh (FFT) để nhân hai đa thức bậc n, ta tiến hành đánh giá đa thức tại các điểm đặc biệt [..........................................................] trên mặt phẳng phức.
+- Câu 26: Thuật toán Karger là một thuật toán xác suất để tìm lát cắt nhỏ nhất (Global Minimum Cut) của đồ thị vô hướng kết nối. Thao tác cơ sở được lặp đi lặp lại ngẫu nhiên trong thuật toán này là [..........................................................]
+- Câu 27: Thuật toán phân tách căn bậc hai trên mảng (Sqrt Decomposition) chia mảng kích thước n thành các khối. Chi phí thời gian xử lý một cập nhật điểm (point update) và một truy vấn khoảng (range query) tổng quát trên cấu trúc cơ bản này lần lượt là [..........................................................]
+- Câu 28: Trong cấu trúc dữ liệu Cây Fenwick (Binary Indexed Tree - BIT), thao tác lấy chỉ số của nút cha quản lý khoảng lớn hơn hoặc tìm bit bật cuối cùng được thực hiện bằng phép toán bitwise thông minh [..........................................................] trên biến chỉ số x
+- Câu 29: Thuật toán Edmond-Karp cải tiến thuật toán Ford-Fulkerson bằng cách lựa chọn đường tăng luồng [..........................................................] để đảm bảo thời gian chạy độc lập với dung lượng.
+- Câu 30: Độ sâu tối đa trong trường hợp xấu nhất của một cây AVL có n nút bị chặn trên bởi hàm logarith có hệ số xấp xỉ [..........................................................]
+
+PHẦN II: ĐÁP ÁN VÀ PHÂN TÍCH CHI TIẾT (RATIONALE)
+- Câu 1: Trong cây Đỏ-Đen (Red-Black Tree), số lượng nút đen nhiều nhất trên bất kỳ đường đi nào từ nút gốc đến một nút lá rỗng (NIL) có mối quan hệ như thế nào với chiều cao đen bh(x) của nút gốc?
+Đáp án đúng: Bằng chính xác bh(x)
+Phân tích chuyên sâu: Theo định nghĩa, chiều cao đen bh(x) là số lượng nút đen trên bất kỳ con đường nào từ x đến các lá NIL, không tính chính x nếu x là đỏ. Do mọi đường đi có số nút đen bằng nhau, số nút đen nhiều nhất hay ít nhất đều bằng bh(x).
+
+- Câu 2: Khi thực hiện phép toán Union bằng thuật toán gộp theo kích thước (Union by Size) kết hợp nén đường đi (Path Compression) trong cấu trúc dữ liệu các tập hợp rời nhau (Disjoint Set Union - DSU), độ phức tạp thời gian khấu hao (amortized time complexity) cho mỗi phép toán là bao nhiêu?
+Đáp án đúng: O(α(n))
+Phân tích chuyên sâu: Sự kết hợp của cả hai kỹ thuật gộp theo kích thước/hạng và nén đường đi tối ưu hóa cấu trúc cây gần như phẳng, dẫn đến hàm nghịch đảo Ackermann α(n), tăng trưởng cực kỳ chậm.
+
+- Câu 3: Trong cây Splay (Splay Tree), phép toán splay một nút lên gốc bằng chuỗi các bước xoay Zig-Zig hoặc Zag-Zag được thực hiện khi nào?
+Đáp án đúng: Nút hiện tại và nút cha cùng là con trái hoặc cùng là con phải
+Phân tích chuyên sâu: Phép xoay Zig-Zig được áp dụng khi nút x và nút cha p(x) có cùng hướng cấu hình (ví dụ: x là con trái của p(x) và p(x) là con trái của ông p(p(x))).
+
+- Câu 4: Giả sử cấu trúc dữ liệu Treap được xây dựng với các khóa tìm kiếm được duy trì theo tính chất cây tìm kiếm nhị phân (BST) và các độ ưu tiên (priorities) ngẫu nhiên được duy trì theo tính chất nào?
+Đáp án đúng: Tính chất cấu trúc Đống (Heap property)
+Phân tích chuyên sâu: Treap là sự kết hợp giữa Tree và Heap. Các độ ưu tiên ngẫu nhiên đi kèm khóa phải thỏa mãn cấu trúc đống (Max-Heap hoặc Min-Heap) để đảm bảo chiều cao trung bình là O(log n).
+
+- Câu 5: Trong thuật toán phân tách chuỗi nặng-nhẹ (Heavy-Light Decomposition - HLD) trên một cây có n đỉnh, bất kỳ đường đi nào giữa hai đỉnh bất kỳ trên cây sẽ bị phân tách thành tối đa bao nhiêu đoạn chuỗi nặng (heavy chains)?
+Đáp án đúng: O(log n)
+Phân tích chuyên sâu: Mỗi khi chuyển từ một chuỗi nặng sang một cạnh nhẹ để sang chuỗi nặng khác, kích thước của cây con giảm đi ít nhất một nửa. Do đó, số lần chuyển đổi tối đa là O(log n).
+
+- Câu 6: Thuật toán Mo (Mo's Algorithm) xử lý các truy vấn offline trên mảng kích thước n bằng cách chia mảng thành các khối có kích thước xấp xỉ √n. Sắp xếp các truy vấn theo thứ tự tăng dần của chỉ số khối thuộc đầu mút trái, và nếu cùng khối thì theo thứ tự nào của đầu mút phải để đạt tối ưu?
+Đáp án đúng: Tăng dần (hoặc đan xen tăng/giảm) của chỉ số đầu mút phải
+Phân tích chuyên sâu: Việc sắp xếp đầu mút phải tăng dần trong cùng một khối đảm bảo con trỏ phải di chuyển đơn điệu tiến lên, giới hạn tổng dịch chuyển của con trỏ phải trong mức tối ưu.
+
+- Câu 7: Bảng thưa (Sparse Table) là một cấu trúc dữ liệu cho phép trả lời các truy vấn như Tìm kiếm đoạn nhỏ nhất (RMQ) trong thời gian O(1) sau khi tiền xử lý. Tính chất cốt lõi nào của hàm toán học bắt buộc phải có để áp dụng được thời gian truy vấn hằng số này?
+Đáp án đúng: Tính lỹ đẳng (Idempotency): f(x, x) = x
+Phân tích chuyên sâu: Hàm lũy đẳng như min, max, gcd cho phép hai khoảng truy vấn chồng lấn lên nhau mà không làm sai lệch kết quả cuối cùng, giúp phủ kín đoạn cần tìm bằng đúng hai khoảng có độ dài lũy thừa của 2.
+
+- Câu 8: Trong cây phân đoạn (Segment Tree) quản lý mảng n phần tử, khi áp dụng kỹ thuật Cập nhật lười (Lazy Propagation), thông tin cập nhật dạng khoảng được lưu lại tại các nút trung gian và chỉ được đẩy xuống các nút con khi nào?
+Đáp án đúng: Khi nút con đó được truy cập trực tiếp trong một tiến trình truy vấn hoặc cập nhật sau này
+Phân tích chuyên sâu: Bản chất của 'lười' là trì hoãn việc tính toán. Giá trị chỉ được cập nhật hạ tầng khi có yêu cầu đi qua nút đó để thực hiện thao tác mới.
+
+- Câu 9: Bộ lọc Bloom (Bloom Filter) là một cấu trúc dữ liệu xác suất tiết kiệm không gian được sử dụng để kiểm tra một phần tử có thuộc một tập hợp hay không. Hệ quả nào sau đây phản ánh chính xác sai số của bộ lọc này?
+Đáp án đúng: Có thể xảy ra Dương tính giả (False Positive), nhưng không bao giờ có Âm tính giả (False Negative)
+Phân tích chuyên sâu: Nếu bộ lọc báo phần tử không tồn tại (các bit bằng 0), chắc chắn nó không tồn tại. Nếu các bit đều bằng 1, có thể do các phần tử khác băm trùng vào (Dương tính giả).
+
+- Câu 10: Trong thuật toán Dinic tìm luồng cực đại trên mạng luồng, cấu trúc nào được xây dựng tại mỗi bước lặp để tìm đường tăng luồng bằng cách sử dụng tìm kiếm theo chiều rộng (BFS)?
+Đáp án đúng: Đồ thị phân tầng (Layered Network / Level Graph)
+Phân tích chuyên sâu: Thuật toán Dinic sử dụng BFS để xây dựng đồ thị phân tầng dựa trên khoảng cách cạnh ngắn nhất từ nguồn, sau đó dùng DFS để tìm các luồng cản (blocking flows) trên đồ thị này.
+
+- Câu 11: Định lý Max-Flow Min-Cut khẳng định rằng giá trị của luồng cực đại trong một mạng luồng bằng chính xác điều gì?
+Đáp án đúng: Khả năng thông qua nhỏ nhất của một lát cắt hẹp nhất (Minimum Cut) ngăn cách nguồn và đích
+Phân tích chuyên sâu: Giá trị luồng lớn nhất bị giới hạn bởi 'nút thắt cổ châu' nhỏ nhất của hệ thống, chính là lát cắt có tổng năng lực thông qua các cạnh hướng từ tập nguồn sang tập đích là nhỏ nhất.
+
+- Câu 12: Thuật toán Hopcroft-Karp tìm cặp ghép cực đại trên đồ thị hai phía (Bipartite Matching) có độ phức tạp thời gian trong trường hợp xấu nhất là bao nhiêu?
+Đáp án đúng: O(|E| √|V|)
+Phân tích chuyên sâu: Thuật toán tăng tiến bằng cách tìm nhiều đường tăng độ dài ngắn nhất cùng lúc trong mỗi pha. Số pha được chứng minh không vượt quá O(√|V|), mỗi pha mất O(|E|) thời gian.
+
+- Câu 13: Thuật toán Tarjan tìm các thành phần liên thông mạnh (Strongly Connected Components - SCC) của đồ thị có hướng duy trì một ngăn xếp chứa các đỉnh và sử dụng chỉ số nào để xác định đỉnh gốc của một SCC?
+Đáp án đúng: Khi chỉ số thứ tự duyệt dfn[u] bằng với giá trị liên thông thấp nhất low[u]
+Phân tích chuyên sâu: Khi dfn[u] == low[u], điều đó chứng tỏ đỉnh u không thể đi tới bất kỳ đỉnh nào được duyệt trước nó mà có thể quay lại. Đỉnh u chính là gốc của thành phần liên thông mạnh chứa nó.
+
+- Câu 14: Thuật toán Kosaraju-Sharir tìm các thành phần liên thông mạnh dựa trên việc thực hiện hai lượt duyệt DFS. Lượt DFS thứ hai được thực hiện trên cấu trúc đồ thị nào?
+Đáp án đúng: Đồ thị chuyển vị (Transpose Graph) đảo ngược tất cả các cạnh
+Phân tích chuyên sâu: Bằng cách đảo ngược các cạnh, việc duyệt theo thứ tự giảm dần của thời gian hoàn thành từ lượt một đảm bảo DFS thứ hai chỉ lan tỏa trong nội bộ một SCC mà không bị tràn sang SCC khác.
+
+- Câu 15: Trong thuật toán KMP (Knuth-Morris-Pratt) để tìm kiếm chuỗi, mảng tiền tố (thường gọi là mảng pi hoặc failure function) tại vị trí i lưu trữ thông tin gì?
+Đáp án đúng: Độ dài của tiền tố dài nhất đồng thời cũng là hậu tố của xâu con kết thúc tại i
+Phân tích chuyên sâu: Mảng pi[i] lưu độ dài lớn nhất của một chuỗi vừa là tiền tố đích thực vừa là hậu tố của đoạn mẫu từ chỉ số 0 đến i, giúp thuật toán không phải lùi con trỏ văn bản.
+
+- Câu 16: Thuật toán Aho-Corasick xây dựng một cấu trúc tự động (Automaton) dựa trên cây Trie để tìm kiếm đồng thời nhiều xâu mẫu. Cạnh liên kết thất bại (Failure Link) của một nút chỉ đến nút nào?
+Đáp án đúng: Nút đại diện cho hậu tố dài nhất hợp lệ có tồn tại trong cây Trie
+Phân tích chuyên sâu: Tương tự KMP, khi không thể mở rộng chuỗi ký tự tại nút hiện tại, cấu trúc tự động nhảy theo failure link đến nút đại diện cho hậu tố dài nhất có thể, tối ưu hóa việc nhận diện chuỗi khác.
+
+- Câu 17: Xây dựng mảng hậu tố (Suffix Array) cho một xâu độ dài n bằng thuật toán sắp xếp nhân đôi tiền tố (Prefix Doubling) có độ phức tạp thời gian là bao nhiêu?
+Đáp án đúng: O(n log n) hoặc O(n log^2 n) tùy thuộc thuật toán sắp xếp cơ sở
+Phân tích chuyên sâu: Thuật toán nhân đôi độ dài khối kết hợp sắp xếp nhanh (Radix Sort cho O(n log n) hoặc Quick Sort cho O(n log^2 n)) qua log n bước lặp cấu trúc.
+
+- Câu 18: Cấu trúc Suffix Automaton (Đồ thị định hướng có xâu hậu tố) tối tiểu cho một xâu ký tự có độ dài n có số lượng trạng thái (nút) tối đa bị chặn trên bởi đại lượng tuyến tính nào?
+Đáp án đúng: 2n - 1
+Phân tích chuyên sâu: Đã được chứng minh toán học chặt chẽ: số lượng nút trong một Suffix Automaton cho một xâu độ dài n >= 2 không bao giờ vượt quá 2n - 1.
+
+- Câu 19: Trong quy hoạch động tối ưu hóa bằng định lý Tứ giác bao (Quadrangle Inequality), điều kiện cần về chi phí w(a, d) + w(b, c) <= w(a, c) + w(b, d) với mọi a <= b <= c <= d giúp khẳng định tính chất gì của ma trận quyết định?
+Đáp án đúng: Tính đơn điệu của điểm chia tối ưu (Monotonicity of optimal splits): K(i, j-1) <= K(i, j) <= K(i+1, j)
+Phân tích chuyên sâu: Bất đẳng thức tứ giác bảo toàn cấu trúc đơn điệu của các vị trí cắt tối ưu, thu hẹp không gian tìm kiếm từ dòng tuyến tính xuống các khoảng chặn cố định, giảm độ phức tạp từ O(n^3) xuống O(n^2).
+
+- Câu 20: Kỹ thuật tối ưu hóa bao lồi (Convex Hull Trick) thường được áp dụng để tăng tốc các bài toán quy hoạch động có công thức truy hồi dạng nào?
+Đáp án đúng: dp[i] = min_{j < i} { dp[j] + m_j * x_i + c_j }
+Phân tích chuyên sâu: Công thức này thể hiện việc tìm giá trị nhỏ nhất của một tập hợp các đường thẳng dạng y = m * x + c tại hoành độ x_i. Việc duy trì bao lồi giúp tìm kiếm đường thẳng tối ưu trong thời gian O(log n) hoặc O(1).
+
+- Câu 21: Thuật toán nhân ma trận nhanh Strassen làm giảm độ phức tạp thời gian nhân hai ma trận kích thước n x n từ O(n^3) xuống xấp xỉ bao nhiêu bằng cách giảm số lượng phép nhân cốt lõi?
+Đáp án đúng: O(n^{log_2 7}) ≈ O(n^{2.81})
+Phân tích chuyên sâu: Thuật toán Strassen chia ma trận thành các khối nhỏ và sử dụng chiến lược chia để trị, giảm số phép nhân khối từ 8 xuống 7, dẫn đến hệ thức đệ quy T(n) = 7T(n/2) + O(n^2).
+
+- Câu 22: Lớp các bài toán NP-đầy đủ (NP-complete) được định nghĩa là tập hợp các bài toán thỏa mãn hai điều kiện nào?
+Đáp án đúng: Nằm trong lớp NP và mọi bài toán khác trong lớp NP đều có thể quy dẫn thời gian đa thức về nó
+Phân tích chuyên sâu: Đó là định nghĩa chuẩn: Bài toán phải thuộc lớp NP (kiểm tra lời giải trong thời gian đa thức) và nó phải có độ khó đại diện cho toàn bộ lớp (NP-hard).
+
+- Câu 23: Cấu trúc dữ liệu Cây Wavelet (Wavelet Tree) cho phép thực hiện truy vấn hiệu quả phép toán quantile(L, R, k) (tìm phần tử nhỏ thứ k trong đoạn từ L đến R). Nguyên lý phân tách cốt lõi của cây này tại mỗi nút là gì?
+Đáp án đúng: Phân tách tập giá trị dựa trên không gian dải giá trị trung vị, ánh xạ các phần tử nhỏ hơn vào con trái và lớn hơn vào con phải
+Phân tích chuyên sâu: Cây Wavelet chia nhỏ không gian dải giá trị thành hai nửa ở mỗi tầng, dùng một vectơ bit để ghi nhận vị trí gốc của phần tử di chuyển sang nhánh nào, duy trì thứ tự xuất hiện gốc.
+
+- Câu 24: Trong cây Link-Cut (Link-Cut Tree) dùng để quản lý một rừng các cây động, cấu trúc cây con đóng vai trò cấu trúc phụ trợ nội bộ (represented/auxiliary trees) để lưu trữ các chuỗi đường đi dọc (Preferred Paths) thường là cây gì?
+Đáp án đúng: Cây Splay (Splay Tree)
+Phân tích chuyên sâu: Cây Link-Cut sử dụng cây Splay làm cấu trúc phụ trợ cho từng chuỗi cạnh dọc vì cây Splay cho phép thực hiện các thao tác đổi gốc và cắt ghép với chi phí khấu hao lý tưởng O(log n).
+
+- Câu 25: Khi thực hiện Biến đổi Fourier nhanh (FFT) để nhân hai đa thức bậc n, ta tiến hành đánh giá đa thức tại các điểm đặc biệt nào trên mặt phẳng phức để có thể áp dụng chiến lược chia để trị?
+Đáp án đúng: Các căn bậc n của đơn vị (Roots of unity): ω^k = e^{2πi k / n}
+Phân tích chuyên sâu: Tính đối xứng và tuần hoàn của các căn bậc n của đơn vị cho phép khử và gộp các phép tính của phần bậc chẵn và phần bậc lẻ, giảm chi phí nhân xuống O(n log n).
+
+- Câu 26: Thuật toán Karger là một thuật toán xác suất để tìm lát cắt nhỏ nhất (Global Minimum Cut) của đồ thị vô hướng kết nối. Thao tác cơ sở được lặp đi lặp lại ngẫu nhiên trong thuật toán này là gì?
+Đáp án đúng: Co cạnh (Edge Contraction) - gộp hai đỉnh đầu mút của một cạnh ngẫu nhiên thành một đỉnh đơn
+Phân tích chuyên sâu: Thuật toán Karger liên tục chọn ngẫu nhiên một cạnh và co nó lại, gộp hai đỉnh thành một cho đến khi đồ thị chỉ còn lại đúng 2 đỉnh. Lượng cạnh còn lại giữa 2 đỉnh này chính là ứng viên lát cắt nhỏ nhất.
+
+- Câu 27: Thuật toán phân tách căn bậc hai trên mảng (Sqrt Decomposition) chia mảng kích thước n thành các khối. Chi phí thời gian xử lý một cập nhật điểm (point update) và một truy vấn khoảng (range query) tổng quát trên cấu trúc cơ bản này lần lượt là bao nhiêu?
+Đáp án đúng: O(1) cho cập nhật và O(√n) cho truy vấn
+Phân tích chuyên sâu: Cập nhật điểm chỉ yêu cầu thay đổi giá trị tại phần tử và điều chỉnh giá trị tổng hợp của duy nhất khối chứa nó (O(1)). Truy vấn khoảng quét qua tối đa O(√n) khối toàn phần và vài phần tử lẻ.
+
+- Câu 28: Trong cấu trúc dữ liệu Cây Fenwick (Binary Indexed Tree - BIT), thao tác lấy chỉ số của nút cha quản lý khoảng lớn hơn hoặc tìm bit bật cuối cùng được thực hiện bằng phép toán bitwise thông minh nào trên biến chỉ số x?
+Đáp án đúng: x & (-x)
+Phân tích chuyên sâu: Phép toán bù hai x & (-x) trích xuất chính xác bit 1 thấp nhất (least significant bit) của x, đây là nền tảng toán học để dịch chuyển chính xác qua các nút quản lý khoảng của BIT.
+
+- Câu 29: Thuật toán Edmond-Karp cải tiến thuật toán Ford-Fulkerson bằng cách lựa chọn đường tăng luồng như thế nào để đảm bảo thời gian chạy độc lập với dung lượng tối đa của mạng luồng?
+Đáp án đúng: Luôn chọn đường tăng luồng có số lượng cạnh ít nhất bằng BFS
+Phân tích chuyên sâu: Bằng việc luôn chọn đường đi ngắn nhất dựa trên số lượng cạnh, thuật toán Edmond-Karp đảm bảo tổng số lần tăng luồng bị chặn trên bởi O(|V||E|), mang lại độ phức tạp tổng thể là O(|V||E|^2).
+
+- Câu 30: Độ sâu tối đa trong trường hợp xấu nhất của một cây AVL có n nút bị chặn trên bởi hàm logarith có hệ số xấp xỉ bao nhiêu, chứng minh nó luôn cân bằng chặt chẽ hơn cây Đỏ-Đen?
+Đáp án đúng: 1.44 log_2 n
+Phân tích chuyên sâu: Cây AVL duy trì độ lệch chiều cao không quá 1. Phân tích toán học dựa trên dãy Fibonacci chứng minh chiều cao lớn nhất trong trường hợp xấu nhất là ≈ 1.44 log_2 n.

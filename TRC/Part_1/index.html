@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần thi trực tiếp - Vòng Chung Kết</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap&subset=vietnamese" rel="stylesheet">
+    <style>
+        :root {
+            /* Design System Tokens (Option 3: Apple Glassmorphism Style) */
+            --canvas: #030307; 
+            --glass-bg: rgba(255, 255, 255, 0.035);
+            --glass-bg-hover: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border-hover: rgba(255, 255, 255, 0.2);
+            
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            --accent-hover: #818cf8;
+            
+            --ink: #ffffff;
+            --ink-muted: #cbd5e1; 
+            --ink-subtle: #94a3b8; 
+            
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.25);
+            --error: #ef4444;
+            --error-glow: rgba(239, 68, 68, 0.25);
+            --warning: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.25);
+            --skip: #64748b;
+            --skip-glow: rgba(100, 116, 139, 0.25);
+            
+            --rounded-sm: 8px;
+            --rounded-md: 12px;
+            --rounded-lg: 24px;
+            --rounded-full: 9999px;
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--canvas);
+            color: var(--ink);
+            text-align: center;
+            margin: 0;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- NỀN SHIFTING BLURRED MESH --- */
+        .glow-blob {
+            position: absolute;
+            border-radius: var(--rounded-full);
+            filter: blur(140px);
+            -webkit-filter: blur(140px);
+            z-index: -1;
+            opacity: 0.16;
+            pointer-events: none;
+            animation: floatBlob 22s infinite alternate ease-in-out;
+        }
+        .blob-1 {
+            width: 480px;
+            height: 480px;
+            background: var(--accent);
+            top: -120px;
+            left: 8%;
+        }
+        .blob-2 {
+            width: 520px;
+            height: 520px;
+            background: #a855f7; /* Tím */
+            bottom: -150px;
+            right: 6%;
+            animation-delay: -5s;
+        }
+        .blob-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--success);
+            top: 35%;
+            right: 25%;
+            opacity: 0.08;
+            animation-delay: -11s;
+        }
+        .blob-4 {
+            width: 350px;
+            height: 350px;
+            background: var(--error);
+            top: 20%;
+            left: 30%;
+            opacity: 0.06;
+            animation-delay: -15s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 40px) scale(1.15); }
+            100% { transform: translate(-40px, -60px) scale(0.9); }
+        }
+
+        /* --- MÀN HÌNH BẮT ĐẦU --- */
+        #start-screen {
+            margin-top: 10vh;
+            max-width: 850px; /* Expanded width to fit the single-line title beautifully and prevent text clipping */
+            width: 95%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            padding: 50px 45px; /* Restored balanced padding */
+            border-radius: var(--rounded-lg);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            display: block;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: var(--transition-smooth);
+            text-align: center;
+        }
+        #start-screen:hover {
+            border-color: var(--glass-border-hover);
+            box-shadow: 0 40px 100px rgba(99, 102, 241, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        #start-screen h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(20px, 4.5vw, 36px); /* Balanced font size to prevent overflow */
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 40%, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        #start-credit {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--ink-subtle);
+            letter-spacing: 0.05em;
+            opacity: 0.55; /* Restored to the initial clear value */
+            user-select: none;
+            transition: opacity 0.3s, color 0.3s;
+            z-index: 10;
+        }
+        #start-credit:hover {
+            opacity: 0.7;
+            color: var(--accent-hover);
+        }
+        .start-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        .btn-start {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            padding: 16px 50px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--rounded-md);
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+            transition: var(--transition-smooth);
+        }
+        .btn-start:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.55);
+        }
+        .btn-start:active {
+            transform: translateY(0);
+        }
+
+        /* --- THANH TRẠNG THÁI (ẨN ĐI THEO THIẾT KẾ MỚI) --- */
+        #top-bar {
+            display: none !important;
+        }
+
+        /* --- BỘ HIỂN THỊ ĐỘI, ĐIỂM, THỜI GIAN TRONG KHUNG CÂU HỎI --- */
+        #question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        .header-left {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex: 1;
+            justify-content: flex-start;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            justify-content: flex-end;
+        }
+        .header-status-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-md);
+            padding: 8px 18px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+        }
+        .header-status-box:hover {
+            border-color: var(--glass-border-hover);
+            transform: translateY(-1px);
+        }
+        #header-team-box { 
+            border-left: 3px solid var(--accent); 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 10px rgba(99, 102, 241, 0.1);
+        }
+        #header-score-box { 
+            border-left: 3px solid var(--warning); 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 10px rgba(245, 158, 11, 0.1);
+        }
+        #header-timer-box { 
+            border-left: 3px solid var(--error); 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 10px rgba(239, 68, 68, 0.1);
+        }
+        #team-name-display { color: var(--accent-hover); }
+        #score { color: var(--warning); }
+        #timer-value { color: var(--error); font-family: 'JetBrains Mono', monospace; }
+
+        /* --- KHUNG CHỨA CHÍNH (MAIN CONTAINER) --- */
+        #question-container {
+            display: none; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(35px);
+            -webkit-backdrop-filter: blur(35px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-lg);
+            padding: 35px 50px;
+            width: 98%;
+            max-width: 1800px; /* Expanded almost to full screen width */
+            min-height: 930px; /* Increased to allow question box to expand downwards */
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            position: relative;
+            flex-direction: column;
+            animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: var(--transition-smooth);
+        }
+        #question-container:hover {
+            border-color: var(--glass-border-hover);
+            box-shadow: 0 45px 110px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        #question-points {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            color: var(--warning);
+            margin: 0; /* Align perfectly with header status boxes */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        #question-points::before, #question-points::after {
+            content: "";
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--warning), transparent);
+        }
+
+        /* --- KHUNG PHỤ 1: KHUNG CÂU HỎI (QUESTION CARD FRAME) --- */
+        #question-text-wrapper {
+            position: relative;
+            flex-grow: 1; 
+            width: 100%;
+            height: 560px; /* Chiều cao tăng lên giúp khung câu hỏi rộng rãi, tràn sâu xuống dưới */
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--rounded-md);
+            padding: 30px 35px; /* Symmetric padding since label is removed */
+            margin: 15px 0;
+            display: flex;
+            /* Removed align-items: center and justify-content: center to prevent top overflow cut-off */
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            transition: var(--transition-smooth);
+        }
+        #question-text-wrapper:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        #question-text {
+            font-size: 26px; /* Slightly reduced font size to prevent overflow/scrolling */
+            line-height: 1.65;
+            text-align: justify; 
+            white-space: pre-line;
+            width: 100%;
+            font-weight: 500;
+            color: var(--ink);
+            animation: slideUpFade 0.5s ease-out;
+            margin: auto; /* Centers when content fits, aligns to start/top when overflowing to prevent top-cut-off scroll bug */
+        }
+
+        /* Nhãn định vị kỹ thuật số tinh tế cho các khung phụ */
+        .frame-label {
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink-subtle);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .frame-label::before {
+            content: "";
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: var(--rounded-full);
+            background-color: var(--ink-subtle);
+        }
+
+        /* --- KHUNG PHỤ 2: KHUNG ĐÁP ÁN (ANSWER CARD FRAME) --- */
+        #answer-box {
+            position: relative;
+            visibility: hidden; 
+            opacity: 0;
+            width: 100%;
+            height: 90px; /* Chiều cao cố định của khung đáp án phụ */
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: var(--rounded-md);
+            padding: 30px 30px 20px 30px;
+            margin-top: 5px;
+            font-size: 26px;
+            color: var(--success);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            transition: var(--transition-bounce);
+            transform: translateY(12px);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #answer-box.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            background-color: rgba(16, 185, 129, 0.06);
+            border: 1px solid var(--success);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .answer-label {
+            transition: color 0.4s ease;
+        }
+        .answer-label::before {
+            transition: background-color 0.4s ease;
+        }
+        #answer-box.show .answer-label {
+            color: var(--success);
+        }
+        #answer-box.show .answer-label::before {
+            background-color: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        /* Trạng thái SAI (Đỏ) */
+        #answer-box.show.wrong {
+            background-color: rgba(239, 68, 68, 0.06);
+            border-color: var(--error);
+            color: var(--error);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        #answer-box.show.wrong .answer-label {
+            color: var(--error);
+        }
+        #answer-box.show.wrong .answer-label::before {
+            background-color: var(--error);
+            box-shadow: 0 0 8px var(--error);
+        }
+
+        /* Trạng thái BỎ QUA (Xám) */
+        #answer-box.show.skip {
+            background-color: rgba(100, 116, 139, 0.06);
+            border-color: var(--skip);
+            color: var(--ink-muted);
+            box-shadow: 0 10px 30px rgba(100, 116, 139, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        #answer-box.show.skip .answer-label {
+            color: var(--skip);
+        }
+        #answer-box.show.skip .answer-label::before {
+            background-color: var(--skip);
+            box-shadow: 0 0 8px var(--skip);
+        }
+
+        /* Wrapper cho nút điều khiển và bộ âm thanh đặt song song */
+        .bottom-controls-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 25px;
+            flex-shrink: 0;
+        }
+
+        /* Nút điều khiển */
+        .btn-group {
+            margin: 0; /* Remove top margin as it's aligned inside bottom-controls-wrapper */
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-shrink: 0;
+            transition: var(--transition-smooth);
+        }
+        .btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            padding: 14px 28px;
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-md);
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-show { 
+            background-color: rgba(99, 102, 241, 0.05); 
+            border-color: rgba(99, 102, 241, 0.35);
+            color: var(--accent-hover);
+        }
+        .btn-show:hover { 
+            background-color: var(--accent); 
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 8px 25px var(--accent-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-correct { 
+            background-color: rgba(16, 185, 129, 0.05); 
+            border-color: rgba(16, 185, 129, 0.35);
+            color: var(--success);
+        }
+        .btn-correct:hover { 
+            background-color: var(--success); 
+            border-color: var(--success);
+            color: white;
+            box-shadow: 0 8px 25px var(--success-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-skip { 
+            background-color: rgba(100, 116, 139, 0.05); 
+            border-color: rgba(100, 116, 139, 0.35);
+            color: var(--ink-muted);
+        }
+        .btn-skip:hover { 
+            background-color: var(--skip); 
+            border-color: var(--skip);
+            color: white;
+            box-shadow: 0 8px 25px var(--skip-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-wrong { 
+            background-color: rgba(239, 68, 68, 0.05); 
+            border-color: rgba(239, 68, 68, 0.35);
+            color: var(--error);
+        }
+        .btn-wrong:hover { 
+            background-color: var(--error); 
+            border-color: var(--error);
+            color: white;
+            box-shadow: 0 8px 25px var(--error-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .btn-restart { 
+            background-color: var(--accent); 
+            font-size: 20px; 
+            padding: 16px 45px; 
+            margin-top: 40px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
+        }
+        .btn-restart:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.55);
+        }
+
+        /* --- MÀN HÌNH KẾT THÚC --- */
+        #finish-screen {
+            display: none;
+            max-width: 600px;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            padding: 50px 40px;
+            border-radius: var(--rounded-lg);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            margin-top: 10vh;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #finish-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px;
+            color: var(--success);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+        .finish-label {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ink-muted);
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+        .finish-value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            margin-top: 5px;
+            letter-spacing: -0.02em;
+        }
+        #final-team {
+            color: var(--accent-hover);
+        }
+        #final-score {
+            color: var(--warning);
+        }
+
+        /* --- BỘ ĐIỀU KHIỂN ÂM THANH SONG SONG (PARALLEL MUSIC CONTROLLER) --- */
+        #music-controller {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: var(--transition-smooth);
+        }
+        #music-controller:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .music-btn {
+            background: none;
+            border: none;
+            color: var(--ink);
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-hover);
+        }
+        .volume-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 0;
+            overflow: hidden;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #music-controller:hover .volume-slider-container {
+            width: 140px;
+        }
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 90px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            outline: none;
+            transition: background 0.2s;
+        }
+        .volume-slider:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-hover);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 6px var(--accent-glow);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.3);
+            background: #ffffff;
+        }
+        .volume-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-hover);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 6px var(--accent-glow);
+            transition: transform 0.1s ease, background-color 0.1s ease;
+        }
+        .volume-slider::-moz-range-thumb:hover {
+            transform: scale(1.3);
+            background: #ffffff;
+        }
+        #volume-pct {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-hover);
+            min-width: 32px;
+            text-align: right;
+            user-select: none;
+            transition: color 0.2s;
+        }
+        #music-controller:hover #volume-pct {
+            color: #ffffff;
+        }
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            width: 20px;
+            height: 15px;
+            margin-left: 4px;
+        }
+        .visualizer-bar {
+            width: 2px;
+            height: 100%;
+            background-color: var(--accent-hover);
+            border-radius: 1px;
+            animation: bounce 0.8s ease-in-out infinite alternate;
+            animation-play-state: paused;
+            transform-origin: bottom;
+        }
+        .visualizer.playing .visualizer-bar {
+            animation-play-state: running;
+        }
+        .visualizer-bar:nth-child(2) { animation-delay: 0.15s; }
+        .visualizer-bar:nth-child(3) { animation-delay: 0.3s; }
+        .visualizer-bar:nth-child(4) { animation-delay: 0.45s; }
+
+        @keyframes bounce {
+            0% { transform: scaleY(0.2); }
+            100% { transform: scaleY(1); }
+        }
+        @keyframes timerPulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.1); color: #ff6b6b; }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- ANIMATIONS KEYFRAMES --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- BỘ CHỌN ĐỘI THI (TEAM SELECTION GRID) --- */
+        .team-selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 25px 0 35px 0;
+            width: 100%;
+        }
+        .team-opt-btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-md);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--ink-muted);
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.05em;
+        }
+        .team-opt-btn:hover:not(.active) {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-hover);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+        .team-opt-btn:active {
+            transform: scale(0.97);
+        }
+        
+        /* Trạng thái kích hoạt (Active branding glow) */
+        .team-opt-btn.active[data-team="VISTANIAN"] {
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.15);
+            color: #fbcfe8;
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.45);
+            transform: scale(1.04);
+        }
+        .team-opt-btn.active[data-team="M2D"] {
+            border-color: #a855f7;
+            background: rgba(168, 85, 247, 0.15);
+            color: #e9d5ff;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.45);
+            transform: scale(1.04);
+        }
+        .team-opt-btn.active[data-team="ATLAS CITY"] {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+            color: #bfdbfe;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.45);
+            transform: scale(1.04);
+        }
+        .team-opt-btn.active[data-team="SOLAIRE"] {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fde68a;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.45);
+            transform: scale(1.04);
+        }
+
+        /* Khung hiển thị nút bắt đầu thi (Reveal container) */
+        #start-btn-container {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        #start-btn-container.show {
+            opacity: 1;
+            max-height: 100px;
+            pointer-events: auto;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Blobs phát sáng chuyển động ở nền -->
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
+    <div class="glow-blob blob-4"></div>
+
+    <!-- Màn hình khởi đầu -->
+    <div id="start-screen">
+        <h1 style="white-space: nowrap;">The Real Contest 2026: Chặng 1</h1>
+        <div style="margin-bottom: 30px;"></div>
+        
+        <div style="font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: var(--ink-subtle); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 15px; user-select: none;">CHỌN ĐỘI THI:</div>
+        
+        <div class="team-selection-grid">
+            <button class="team-opt-btn" data-team="VISTANIAN" onclick="selectTeam('VISTANIAN')">VISTANIAN</button>
+            <button class="team-opt-btn" data-team="M2D" onclick="selectTeam('M2D')">M2D</button>
+            <button class="team-opt-btn" data-team="ATLAS CITY" onclick="selectTeam('ATLAS CITY')">ATLAS CITY</button>
+            <button class="team-opt-btn" data-team="SOLAIRE" onclick="selectTeam('SOLAIRE')">SOLAIRE</button>
+        </div>
+
+        <div id="start-btn-container">
+            <button class="btn-start" onclick="startQuiz()">BẮT ĐẦU THI</button>
+        </div>
+    </div>
+
+    <div id="start-credit">@TRC2026 - spl</div>
+
+    <!-- Thanh trạng thái -->
+    <!-- Thanh trạng thái (Ẩn đi theo thiết kế mới) -->
+    <div id="top-bar" style="display: none !important;"></div>
+
+    <!-- Khung chứa câu hỏi chính -->
+    <div id="question-container">
+        <!-- HEADER MỚI: Song song Đội, Câu hỏi & Điểm, Thời gian -->
+        <div id="question-header">
+            <div class="header-left">
+                <div id="header-team-box" class="header-status-box" title="Đội thi hiện tại">
+                    ĐỘI: <span id="team-name-display">...</span>
+                </div>
+                <div id="header-score-box" class="header-status-box" title="Điểm số hiện tại">
+                    ĐIỂM: <span id="score">0</span>
+                </div>
+            </div>
+            
+            <div id="question-points">
+                Câu hỏi số <span id="question-index">1</span>: <span id="points-value">10</span> Điểm
+            </div>
+            
+            <div class="header-right">
+                <div id="header-timer-box" class="header-status-box" title="Thời gian còn lại">
+                    ⏱ <span id="timer-value">08:00</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- KHUNG PHỤ 1: CHỨA CÂU HỎI -->
+        <div id="question-text-wrapper">
+            <div id="question-text">Đang tải câu hỏi...</div>
+        </div>
+        
+        <!-- KHUNG PHỤ 2: CHỨA ĐÁP ÁN -->
+        <div id="answer-box">
+            <span id="answer-text"></span>
+        </div>
+        
+        <!-- Nhóm điều khiển & Âm thanh song song -->
+        <div class="bottom-controls-wrapper">
+            <div class="btn-group">
+                <button class="btn btn-correct" onclick="answer('correct')" title="Phím tắt: 1">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    ĐÚNG [1]
+                </button>
+                <button class="btn btn-wrong" onclick="answer('wrong')" title="Phím tắt: 2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    SAI [2]
+                </button>
+                <button class="btn btn-skip" onclick="answer('skip')" title="Phím tắt: 3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+                    BỎ QUA [3]
+                </button>
+            </div>
+
+            <!-- Bộ điều khiển âm thanh song song -->
+            <div id="music-controller">
+                <button class="music-btn" id="mute-btn" onclick="toggleMute()" title="Tắt/Bật tất cả âm thanh (M phím tắt)">
+                    <svg id="volume-on-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    <svg id="volume-off-icon" style="display:none;" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                </button>
+                
+                <button class="music-btn" id="play-btn" onclick="toggleBgMusic()" title="Tắt/Bật nhạc nền (P phím tắt)">
+                    <svg id="play-icon" style="display:none;" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <svg id="pause-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                </button>
+                
+                <div class="volume-slider-container">
+                    <input type="range" class="volume-slider" id="volume-control" min="0" max="1" step="0.05" value="0.2" oninput="changeBgVolume(this.value)" title="Âm lượng nhạc nền">
+                    <span id="volume-pct">20%</span>
+                </div>
+
+                <div class="visualizer" id="visualizer">
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                    <div class="visualizer-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Màn hình kết thúc -->
+    <div id="finish-screen">
+        <div id="finish-title">PHẦN THI KẾT THÚC!</div>
+        <div class="finish-label">Đội thi</div>
+        <div class="finish-value" id="final-team">...</div>
+        <div class="finish-label">Tổng điểm đạt được</div>
+        <div class="finish-value" id="final-score">0</div>
+        <button class="btn btn-restart" onclick="restartQuiz()">QUAY LẠI MÀN HÌNH CHÍNH</button>
+    </div>
+
+    <script>
+        let selectedTeam = "";
+
+        // Định nghĩa bản đồ phân chia câu hỏi cho từng đội (chỉ số câu hỏi từ ngân hàng)
+                const teamQuestionPools = {
+          "VISTANIAN": Array.from({length: 25}, (_, i) => i), 
+          "M2D": Array.from({length: 25}, (_, i) => i + 25), 
+          "ATLAS CITY": Array.from({length: 25}, (_, i) => i + 75), 
+          "SOLAIRE": Array.from({length: 25}, (_, i) => i + 50)
+        }
+
+        // Hàm chọn đội thi trên màn hình chờ
+        function selectTeam(teamName) {
+            playSound(sounds.click);
+            selectedTeam = teamName;
+            
+            // Xóa trạng thái active cũ
+            const buttons = document.querySelectorAll('.team-opt-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Gán trạng thái active cho nút được chọn
+            const activeBtn = document.querySelector(`.team-opt-btn[data-team="${teamName}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Hiển thị mượt mà nút Bắt đầu thi
+            const container = document.getElementById('start-btn-container');
+            container.classList.add('show');
+        }
+
+        let questions = [];
+
+        const allQuestions = [
+    {
+        "text": "Yếu tố nào sau đây thường đóng vai trò quyết định giúp gia tăng giá trị của một khu đất trong đô thị?\nA. Tỷ lệ lạm phát của nền kinh tế\nB. Chi phí nhân công xây dựng tại địa phương\nC. Sự phát triển của hạ tầng giao thông xung quanh (đường lớn, metro…)\nD. Tên gọi cũ của khu đất đó",
+        "answer": "C. Sự phát triển của hạ tầng giao thông xung quanh (đường lớn, metro…)",
+        "points": 10
+    },
+    {
+        "text": "Vì sao Hà Nội được xếp vào nhóm \"Đô thị đặc biệt\" mà không phải là Đô thị loại I trực thuộc trung ương thông thường?\nA.Vì có diện tích lớn nhất cả nước \nB. Vì giữ vai trò là Thủ đô, trung tâm chính trị, hành chính và có vị thế quốc tế đặc biệt\nC.Vì có số lượng chung cư cao tầng nhiều nhất\nD.Vì có lịch sử hình thành lâu đời nhất",
+        "answer": "B. Vì giữ vai trò là Thủ đô, trung tâm chính trị, hành chính và có vị thế quốc tế đặc biệt",
+        "points": 10
+    },
+    {
+        "text": "Đối tượng hàng hóa chính được giao dịch trên thị trường bất động sản Việt Nam bao gồm những gì?\nA. Bao gồm đất thổ cư và nông nghiệp\nB. Bao gồm các căn hộ chung cư cao tầng \nC. Đất đai và tài sản gắn liền với đất\nD. Các loại máy móc phục vụ ngành xây dựng.",
+        "answer": "C. Đất đai và tài sản gắn liền với đất",
+        "points": 10
+    },
+    {
+        "text": "Đâu là các chỉ số quan trọng thường dùng để đo lường thị trường bất động sản?\nA. Chỉ số GDP, CPI và tỷ giá hối đoái\nB. Chỉ số giá Bất động sản, lượng giao dịch thị trường và chỉ số hấp thụ của thị trường \nC. Chỉ số chứng khoán và lãi suất ngân hàng thế giới\nD. Chỉ số giá vàng và giá dầu thô",
+        "answer": "B. Chỉ số giá Bất động sản, lượng giao dịch thị trường và chỉ số hấp thụ của thị trường",
+        "points": 10
+    },
+    {
+        "text": "Một chu kỳ vận động đầy đủ của thị trường bất động sản gồm những giai đoạn nào?\nA. Phục hồi, tăng trưởng, suy thoái và đóng băng\nB. Mở cửa, hoạt động, ổn định và đóng cửa\nC. Sốt đất, hạ nhiệt và đứng bóng\nD. Quy hoạch, xây dựng, bán hàng và quản lý",
+        "answer": "A. Phục hồi, tăng trưởng, suy thoái và đóng băng",
+        "points": 10
+    },
+    {
+        "text": "Nhà chung cư là công trình có nhiều căn hộ, có cầu thang chung, hệ thống công trình hạ tầng sử dụng chung cho các hộ gia đình, cá nhân, tổ chức. Công trình này có ít nhất là mấy tầng trở lên?",
+        "answer": "2 tầng trở lên",
+        "points": 20
+    },
+    {
+        "text": "Theo Luật Kinh doanh Bất động sản năm 2023, trong thời hạn bao nhiêu ngày kể từ ngày bàn giao nhà, công trình xây dựng cho người mua, thì chủ đầu tư phải làm thủ tục để cơ quan nhà nước có thẩm quyền cấp giấy chứng nhận quyền sử dụng đất, quyền sở hữu nhà ở và các tài sản khác gắn liền với đất cho bên mua?",
+        "answer": "50 ngày",
+        "points": 20
+    },
+    {
+        "text": "What is the term used to describe the additional real estate development costs associated with ESG compliance, low-emission materials, and green building certification requirements?",
+        "answer": "Green premium",
+        "points": 20
+    },
+    {
+        "text": "BIM Group, Unicons, Hoàng Huy Commerce, Mipec, đâu không phải là tên một chủ đầu tư bất động sản?",
+        "answer": "Unicons",
+        "points": 20
+    },
+    {
+        "text": "Khi đánh giá một BĐS phải tính đến cả 2 yếu tố tuổi thọ vật lý và tuổi thọ…?",
+        "answer": "kinh tế",
+        "points": 20
+    },
+    {
+        "text": "Những dịch vụ và cơ sở vật chất được xây dựng và cung cấp bên trong khuôn viên của một dự án được gọi là gì?",
+        "answer": "Tiện ích nội khu",
+        "points": 20
+    },
+    {
+        "text": "Theo Luật Nhà ở 2023, nhằm bảo đảm quyền lợi của người mua nhà và trách nhiệm của chủ đầu tư trong việc khắc phục các lỗi kỹ thuật công trình, thời hạn bảo hành tối thiểu áp dụng đối với nhà chung cư là bao lâu?",
+        "answer": "60 tháng (05 năm)",
+        "points": 20
+    },
+    {
+        "text": "Trong đại án liên quan đến siêu dự án Khu đô thị thương mại du lịch nghỉ dưỡng sinh thái Đại Ninh (Lâm Đồng), hội đồng xét xử đã quyết định tịch thu sung công quỹ nhà nước khoảng 2.700 tỷ đồng – khoản tiền phát sinh từ thương vụ chuyển nhượng cổ phần liên quan đến doanh nghiệp nào, đơn vị từng tham gia mua lại cổ phần để sở hữu dự án này?",
+        "answer": "Novaland",
+        "points": 20
+    },
+    {
+        "text": "Which real estate term describes a residential system equipped with automation systems, allowing homeowners to remotely monitor and control functions such as lighting, security, and climate via mobile devices?",
+        "answer": "Smart Home",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định mới nhất Nghị định 100/2024/NĐ-CP (được sửa đổi, bổ sung bởi Nghị định 261/2025/NĐ-CP), nhằm bảo đảm chính sách an sinh xã hội đến đúng đối tượng, điều kiện về tổng thu nhập bình quân hàng tháng thực nhận của hai vợ chồng để người đã kết hôn thuộc diện thu nhập thấp tại khu vực đô thị đủ điều kiện đăng ký mua, thuê mua nhà ở xã hội là không quá ………?",
+        "answer": "40 triệu đồng",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định tại Luật Kinh doanh bất động sản 2023, hiện nay có tổng cộng ……… loại hợp đồng kinh doanh bất động sản được pháp luật quy định và áp dụng trong các giao dịch trên thị trường?",
+        "answer": "11 loại",
+        "points": 20
+    },
+    {
+        "text": "Theo định hướng về phân khúc ưu tiên trong chính sách an sinh nhà ở quốc gia giai đoạn mới, Tổng Bí thư Tô Lâm nhấn mạnh: ”Từ nay đến năm 2030, nhà ở để bán vẫn cần thiết nhưng ............. phải được xác định là trụ cột chiến lược”.",
+        "answer": "nhà ở cho thuê",
+        "points": 20
+    },
+    {
+        "text": "Tỷ lệ đô thị hóa tại Việt Nam năm 2026 ở mức khoảng… phần trăm, tạo áp lực lớn lên nhu cầu nhà ở đô thị?",
+        "answer": "40%",
+        "points": 20
+    },
+    {
+        "text": "Chứng chỉ công trình xanh nào sau đây do Tổ chức Tài chính Quốc tế (IFC) phát triển, tập trung vào thị trường mới nổi?",
+        "answer": "EDGE",
+        "points": 20
+    },
+    {
+        "text": "Chứng chỉ môi giới bất động sản chỉ có giá trị sử dụng trong thời hạn là ...?",
+        "answer": "5 năm",
+        "points": 20
+    },
+    {
+        "text": "Đại lý An Bình tham gia phân phối Đợt 1 dự án A. Đến 12h ngày 20/05/2026, toàn dự án ghi nhận 1,500 booking hợp lệ và 800 khách hàng phát sinh tại dự án. Đại lý An Bình có 180 booking hợp lệ, trong đó 50% booking là khách phát sinh tại dự án.\n\nYêu cầu: Tính tỷ trọng khách hàng phát sinh tại dự án của Đại lý An Bình.",
+        "answer": "11.25%",
+        "points": 30
+    },
+    {
+        "text": "Đại lý An Bình tham gia phân phối Đợt 1 dự án A. Đến 12h ngày 20/05/2026, toàn dự án ghi nhận 1,500 booking hợp lệ và 800 khách hàng phát sinh tại dự án. Đại lý An Bình có 180 booking hợp lệ, trong đó 50% booking là khách phát sinh tại dự án. Chủ đầu tư mở bán 500 căn hộ trong Đợt 1 và phân bổ giỏ hàng theo tỷ trọng booking và khách phát sinh.\n\nYêu cầu: Xác định số lượng căn hộ được chia vào giỏ hàng riêng của Đại lý An Bình.",
+        "answer": "56 căn",
+        "points": 30
+    },
+    {
+        "text": "Anh Giang mua căn hộ tại dự án A với giá niêm yết 4 tỷ đồng, thuộc 200 khách hàng đầu tiên được chiết khấu 2%. Khách hàng lựa chọn vay ngân hàng B theo chính sách HTLS 0% cho 70% trong 24 tháng, và yêu cầu vốn tự có để ký HĐMB là 15% giá trị căn hộ sau chiết khấu.\n\nYêu cầu: Xác định số vốn tự có tối thiểu khách hàng cần chuẩn bị để ký HĐMB.",
+        "answer": "588,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Anh Tùng mua căn hộ tại dự án A với giá niêm yết 4 tỷ đồng, thuộc 200 khách hàng đầu tiên được chiết khấu 2%. Khách hàng lựa chọn vay ngân hàng B theo chính sách HTLS 0% cho 70% trong 24 tháng. Biết khách hàng hiện có 600 triệu đồng vốn tự có.\n\nYêu cầu: Xác định số tiền anh Tùng cần vay ngân hàng.",
+        "answer": "2,324,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Trong ngày ráp căn, hệ thống ghi nhận kết quả khớp căn của các đại lý như sau:\n\nĐại lý An Phát: 28 căn\nĐại lý Thành Công: 47 căn\nĐại lý Đông Dương: 35 căn\n\nTheo quy định, Chủ đầu tư chỉ hỗ trợ tra soát kỹ thuật tối đa 10% số căn khớp thành công của từng đại lý (làm tròn xuống đến số nguyên gần nhất).\n\nĐại lý Thành Công gửi yêu cầu tra soát cho một số căn hộ đã khớp.\n\nYêu cầu: Xác định số lượng căn hộ tối đa Đại lý Thành Công được hỗ trợ tra soát.",
+        "answer": "4 căn",
+        "points": 30
+    },
+    {
+        "text": "Câu 1. Khi đánh giá một bất động sản dựa trên khả năng sinh lời trong tương lai, nhà đầu tư thường quan tâm nhất đến yếu tố nào?\nA. Lịch sử sử dụng đất và tên gọi trước đây của khu đất đó\nB. Khả năng tạo ra dòng tiền ổn định (cho thuê, kinh doanh…)\nC. Chi phí làm các thủ tục hành chính và pháp lý ban đầu\nD. Sở thích thẩm mỹ cá nhân của các nhân viên môi giới",
+        "answer": "B. Khả năng tạo ra dòng tiền ổn định (cho thuê, kinh doanh…)",
+        "points": 10
+    },
+    {
+        "text": "Theo quy định pháp luật hiện nay, nhóm đất nào sau đây chắc chắn thuộc nhóm “Đất nông nghiệp”?\nA.Đất trồng cây hàng năm và đất nuôi trồng thủy sản\nB.Đất xây dựng khu công nghiệp\nC. Đất xây nhà ở\nD. Đất trụ sở cơ quan nhà nước",
+        "answer": "A",
+        "points": 10
+    },
+    {
+        "text": "Yếu tố nào sau đây chủ yếu tạo nên tính \"khan hiếm\" của bất động sản (như đất ở trung tâm)?\nA.Do chính sách cấm mua bán của nhà nước\nB. Do tâm lý lo sợ của người mua nhà\nC. Do tính cố định về vị trí và giới hạn về nguồn cung\nD. Do chi phí nguyên vật liệu xây dựng tăng cao.",
+        "answer": "C",
+        "points": 10
+    },
+    {
+        "text": "Trong kinh doanh bất động sản, việc tuân thủ các nguyên tắc nào là bắt buộc?\nA.Giữ bí mật tuyệt đối thông tin về giá cả\nB.Tự do thỏa thuận mà không cần theo quy định của luật\nC. Công khai, minh bạch, không vi phạm quy định của luật\nD. Ưu tiên lợi ích của người bán hơn người mua.",
+        "answer": "C",
+        "points": 10
+    },
+    {
+        "text": "Nhóm yếu tố vĩ mô nào sau đây tác động mạnh nhất đến thị trường bất động sản Việt Nam?\nA.Thời tiết, khí hậu và các mùa trong năm\nB. Kinh tế - chính trị, chính sách nhà nước, dân số và thu nhập cư dân\nC. Màu sắc trang trí và phong cách nội thất tòa nhà\nD. Sở thích cá nhân của các nhà môi giới nhỏ lẻ.",
+        "answer": "B",
+        "points": 10
+    },
+    {
+        "text": "Tính đến tháng 5/2026, theo thông tin từ UBND TP Hà Nội, trên địa bàn thành phố đang có khoảng bao nhiêu dự án lớn, quan trọng và trọng điểm được triển khai công tác giải phóng mặt bằng, đầu tư xây dựng nhằm tháo gỡ các điểm nghẽn hạ tầng và thúc đẩy tăng trưởng kinh tế - xã hội?",
+        "answer": "27 dự án lớn, quan trọng và trọng điểm",
+        "points": 20
+    },
+    {
+        "text": "Loại hình bất động sản nào kết hợp giữa nghỉ dưỡng và đầu tư cho thuê dài hạn?",
+        "answer": "Bất động sản nghỉ dưỡng",
+        "points": 20
+    },
+    {
+        "text": "Theo Luật Đất đai 2024, căn cứ vào mục đích sử dụng, đất đai được phân thành ……… nhóm đất?",
+        "answer": "03 nhóm đất gồm: đất nông nghiệp, đất phi nông nghiệp và đất chưa sử dụng",
+        "points": 20
+    },
+    {
+        "text": ".. là tổ chức sở hữu vốn hoặc được giao thay mặt chủ sở hữu vốn, tổ chức vay vốn trực tiếp quản lý quá trình thực hiện dự án?",
+        "answer": "Chủ đầu tư",
+        "points": 20
+    },
+    {
+        "text": "Trong các đơn vị sau đây: Geleximco, Hòa Bình (HBC), BRG Group, Masterise Homes đâu không phải là tên của một chủ đầu tư bất động sản (nhà phát triển dự án)?",
+        "answer": "Tập đoàn Hòa Bình (HBC)",
+        "points": 20
+    },
+    {
+        "text": "Diện tích sử dụng thực tế của căn hộ còn được gọi là?",
+        "answer": "Diện tích thông thuỷ",
+        "points": 20
+    },
+    {
+        "text": "Hiến pháp 2013 (Điều 53) khẳng định đất đai thuộc sở hữu .............",
+        "answer": "toàn dân",
+        "points": 20
+    },
+    {
+        "text": "Nhà ở xã hội có thể được chuyển nhượng trong thời gian bao lâu sau khi mua?",
+        "answer": "5 năm",
+        "points": 20
+    },
+    {
+        "text": "... là hình thức đầu tư bất động sản tập trung vào việc mua bán nhanh để kiếm lời từ chênh lệch giá.",
+        "answer": "Đầu tư lướt sóng",
+        "points": 20
+    },
+    {
+        "text": "VARS là tên viết tắt của ... Bất động sản Việt Nam là nơi quy tụ, tập hợp, kết nối các nhà Môi giới Bất động sản trên lãnh thổ Việt Nam.",
+        "answer": "Hội môi giới",
+        "points": 20
+    },
+    {
+        "text": "Trong những loại hình Bất động sản sau, Bất động sản nào có tính bền vững? BĐS nghỉ dưỡng, đất nền, sàn văn phòng trung tâm thương mại, thấp tầng.",
+        "answer": "thấp tầng, sàn văn phòng trung tâm thương mại",
+        "points": 20
+    },
+    {
+        "text": "The real estate market usually has a cycle of how many years?",
+        "answer": "10 years",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định mới nhất tại Điều 30 Nghị định 100/2024/NĐ-CP (được sửa đổi, bổ sung nhằm mở rộng tiếp cận nhà ở xã hội cho các nhóm yếu thế), điều kiện về mức thu nhập bình quân hàng tháng thực nhận để người độc thân đang nuôi con dưới vị thành niên thuộc đối tượng thu nhập thấp tại khu vực đô thị đủ điều kiện đăng ký mua, thuê mua nhà ở xã hội là không quá ………?",
+        "answer": "30 triệu đồng",
+        "points": 20
+    },
+    {
+        "text": "Which real estate term refers to a housing or apartment segment priced reasonably to meet the actual residential needs of the vast majority of working-class citizens?",
+        "answer": "Affordable housing",
+        "points": 20
+    },
+    {
+        "text": "Trong một trong những đại án kinh tế lớn nhất lịch sử Việt Nam liên quan đến lĩnh vực bất động sản – tài chính – ngân hàng giai đoạn bị điều tra và xét xử 2022–2025, cơ quan tố tụng xác định bị cáo trong vụ án đã sử dụng một tổ chức tín dụng như “công cụ tài chính” để luân chuyển dòng vốn và hỗ trợ cho hệ sinh thái doanh nghiệp bất động sản của Tập đoàn Vạn Thịnh Phát. Tổ chức tín dụng đó là ..........?",
+        "answer": "Ngân hàng SCB",
+        "points": 20
+    },
+    {
+        "text": "Khách hàng mua căn hộ 5 tỷ đồng, thuộc 200 khách hàng đầu tiên được chiết khấu 2% và chọn vay tối đa theo chính sách HTLS 0% cho 70% giá trị căn hộ trong 24 tháng.\n\nYêu cầu: Tính số tiền ngân hàng giải ngân tối đa.",
+        "answer": "3,430,000,000 VND",
+        "points": 30
+    },
+    {
+        "text": "Khách hàng mua căn hộ 5 tỷ đồng, thuộc 200 khách hàng đầu tiên được chiết khấu 2% và chọn vay tối đa theo chính sách HTLS 0% cho 70% giá trị căn hộ trong 24 tháng.\n\nYêu cầu: Xác định số tiền khách hàng cần tự thanh toán.",
+        "answer": "1,470,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Khách hàng mua căn hộ 5 tỷ đồng, thuộc 200 khách hàng đầu tiên được chiết khấu 2%. Khách hàng có 1 tỷ đồng vốn tự có và chọn vay ngân hàng phần còn lại theo chính sách hỗ trợ lãi suất. Ngân hàng hỗ trợ giải ngân tối đa 70% giá trị căn hộ sau chiết khấu.\n\nYêu cầu: Xác định số tiền khách hàng cần chuẩn bị thêm ngoài 1 tỷ đồng vốn tự có để đủ thanh toán giá trị căn hộ.",
+        "answer": "470,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Theo chính sách phân bổ giỏ hàng Đợt 1: 80% tỷ trọng booking + 20% tỷ trọng khách phát sinh tại dự án. Toàn dự án ghi nhận 1,000 booking hợp lệ và 500 khách hàng phát sinh. Đại lý A có 180 booking và 60 khách phát sinh tại dự án.\n\nYêu cầu: Tính tỷ trọng giỏ hàng của Đại lý A.",
+        "answer": "16.8%",
+        "points": 30
+    },
+    {
+        "text": "Toàn dự án ghi nhận 1,000 booking hợp lệ. Đại lý C có 220 booking, trong đó 20 booking bị trùng CCCD và bị loại theo quy định 1 khách hàng = 1 CCCD = 1 booking.\n\nYêu cầu: Xác định tổng số booking hợp lệ mới của toàn dự án.",
+        "answer": "980 booking",
+        "points": 30
+    },
+    {
+        "text": "Mục đích cốt lõi nhất của việc định giá bất động sản trên thị trường là gì?\nA.Để đẩy giá nhà lên cao nhất có thể\nB.Để nộp thuế ít nhất\nC. Giúp xác định giá trị thực tế hợp lý tại một thời điểm\nD. Để quảng cáo dự án",
+        "answer": "C",
+        "points": 10
+    },
+    {
+        "text": "Trong kỷ nguyên số, việc chuyển đổi \"Hồ sơ địa chính\" từ dạng giấy sang dạng số hóa mang lại lợi ích cốt lõi nào cho thị trường bất động sản?\nA. Làm cho các giao dịch nhà đất trở nên bí mật hơn\nB. Tăng tính minh bạch, giảm thiểu rủi ro pháp lý và rút ngắn thời gian giao dịch\nC. Để thay thế hoàn toàn vai trò của các văn phòng công chứng\nD. Giúp Nhà nước tăng giá đất nhanh hơn",
+        "answer": "B",
+        "points": 10
+    },
+    {
+        "text": "Một hợp đồng kinh doanh bất động sản dù đã công chứng nhưng vẫn có thể bị tuyên vô hiệu nếu vi phạm điều nào sau đây?\nA.Một trong hai bên không có tài khoản ngân hàng\nB. Giá mua bán thấp hơn giá kỳ vọng của hàng xóm \nC.Nội dung hợp đồng vi phạm điều cấm của luật hoặc giả tạo để che giấu giao dịch khác \nD.Hợp đồng được in trên giấy không đúng màu quy định",
+        "answer": "C",
+        "points": 10
+    },
+    {
+        "text": "Người quản lý bất động sản KHÔNG NÊN có hành động nào sau đây nếu người thuê chấm dứt hợp đồng?\nA. Tìm hiểu các lý do người thuê chấm dứt hợp đồng\nB. Nghiên cứu các giải pháp để tránh tình trạng tương tự xảy ra trong tương lai\nC. Rà soát và kiểm tra lại các điều khoản trong hợp đồng\nD. Hoàn toàn lờ đi và coi như chuyện bình thường trong quản lý bất động sản",
+        "answer": "D",
+        "points": 10
+    },
+    {
+        "text": "Đặc điểm nào sau đây khiến bất động sản khác biệt hoàn toàn với các hàng hóa thông thường khác?\nA.Tính dễ di chuyển và tính đồng nhất\nB.Tính bất động, không đồng nhất, khan hiếm và bền vững\nC.Tính rẻ tiền và dễ thay thế\nD. Tính tiêu hao nhanh theo thời gian",
+        "answer": "B",
+        "points": 10
+    },
+    {
+        "text": "…… is the term used to describe digital technologies and innovative solutions applied in the real estate industry?",
+        "answer": "PROPTECH/Property Technology",
+        "points": 20
+    },
+    {
+        "text": "Theo báo cáo thị trường BĐS quý I/2026, phân khúc ….. chiếm tỷ trọng chủ đạo (khoảng 67-69%) trong tổng lượng giao dịch và nguồn cung mở bán mới?",
+        "answer": "Căn hộ chung cư",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định tại Luật Kinh doanh bất động sản 2023, nhằm bảo vệ quyền lợi của người mua nhà hình thành trong tương lai (“nhà trên giấy”), chủ đầu tư chỉ được phép thu tiền đặt cọc tối đa không quá ………  % giá bán hoặc giá thuê mua nhà ở, công trình xây dựng trước khi đủ điều kiện đưa vào kinh doanh?",
+        "answer": "5%",
+        "points": 20
+    },
+    {
+        "text": "Tháng 05/2026. ai đã đưa ra thông điệp mang tính định hướng phát triển thị trường bất động sản Việt Nam: “Nhà là để ở chứ không phải để tích sản, đầu cơ”?",
+        "answer": "Tổng Bí thư Tô Lâm",
+        "points": 20
+    },
+    {
+        "text": "Theo Luật Đất đai 2025, có …hình thức bồi thường khi Nhà nước thu hồi đất.",
+        "answer": "4",
+        "points": 20
+    },
+    {
+        "text": "……… là cách gọi không chính thức trong thực tế để chỉ loại giấy tờ nhà đất được cấp trước khi hệ thống “Sổ đỏ” và “Sổ hồng” hiện hành được áp dụng rộng rãi tại Việt Nam?",
+        "answer": "Sổ trắng",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định tại Luật Đất đai 2024, khi giá đất trên thị trường có biến động lớn trong năm, UBND cấp tỉnh được quyền chủ động ……… bảng giá đất mà không cần chờ đến kỳ cập nhật định kỳ vào ngày 01/01 năm sau?",
+        "answer": "Điều chỉnh",
+        "points": 20
+    },
+    {
+        "text": "Cuối năm 2021 – đầu năm 2022, thị trường bất động sản Việt Nam ghi nhận một sự kiện gây chấn động khi một tập đoàn bất động sản đấu giá thành công lô đất “vàng” ký hiệu 3-12 tại Khu đô thị mới Thủ Thiêm (TP.HCM) với mức giá kỷ lục hơn 2,4 tỷ đồng/m² – cao chưa từng có trên thị trường. Tuy nhiên, việc sau đó đơn phương bỏ cọc không chỉ làm dấy lên tranh luận về hiện tượng “thổi giá”, đầu cơ và minh bạch đấu giá đất, mà còn tạo ra những tác động mạnh đến tâm lý nhà đầu tư, mặt bằng giá đất và công tác quản lý thị trường bất động sản. Tập đoàn nào liên quan đến sự kiện này?",
+        "answer": "Tân Hoàng Minh",
+        "points": 20
+    },
+    {
+        "text": "Theo Đề án “Đầu tư xây dựng ít nhất 01 triệu căn hộ nhà ở xã hội cho đối tượng thu nhập thấp, công nhân khu công nghiệp giai đoạn 2021–2030” do Chính phủ phê duyệt, nhằm giải quyết nhu cầu nhà ở thực tế và tăng khả năng tiếp cận nhà ở của người dân có thu nhập thấp, mục tiêu phát triển tối thiểu đến năm 2030 là xây dựng ít nhất ……… căn hộ nhà ở xã hội trên phạm vi cả nước?",
+        "answer": "1 triệu",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định và thực tiễn quản lý theo Luật Đất đai 2024, hiện tượng ... được dùng để chỉ sự chênh lệch đáng kể giữa mức giá đất do Nhà nước quy định và giá giao dịch thực tế trên thị trường, thường gây ảnh hưởng đến tính minh bạch và hiệu quả của thị trường bất động sản?",
+        "answer": "Hai giá đất đai",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định tại Nghị định 15/2021/NĐ-CP, trong các giai đoạn của quá trình thực hiện dự án đầu tư xây dựng như: giao đất/thuê đất, giám sát thi công - thực hiện, vận hành - chạy thử, thì giai đoạn nào sau đây không thuộc giai đoạn thực hiện dự án đầu tư xây dựng?",
+        "answer": "Bảo hành công trình xây dựng",
+        "points": 20
+    },
+    {
+        "text": "Khi chuyển mục đích sử dụng đất, số tiền người dân phải nộp cho Nhà nước được tính bằng khoản ............. giữa giá trị của loại đất mới và loại đất cũ.",
+        "answer": "chênh lệch",
+        "points": 20
+    },
+    {
+        "text": "What technology in real estate brokerage allows clients to take immersive 3D/360° virtual property tours remotely without physically visiting the site?",
+        "answer": "VR (Virtual Reality) technology",
+        "points": 20
+    },
+    {
+        "text": "Sau sáp nhập, Việt Nam hiện có mấy thành phố trực thuộc Trung ương?",
+        "answer": "7(Hà Nội, HCMC, Đà Nẵng, Hải Phòng, Huế, Cần Thơ, Đồng Nai - mới nhất)",
+        "points": 20
+    },
+    {
+        "text": "Bất động sản nghỉ dưỡng và đất nền là loại hình Bất động sản có tính ...?",
+        "answer": "thời điểm/không bền vững/temporary",
+        "points": 20
+    },
+    {
+        "text": "Dự án áp dụng chiết khấu 2% cho 200 khách hàng đầu tiên. Khách hàng Nguyễn Long là khách thứ 200, mua căn hộ có giá niêm yết 3.5 tỷ đồng. Vốn tự có để ký HĐMB bằng 15% giá trị căn hộ sau ưu đãi.\n\nYêu cầu: Xác định số tiền cần chuẩn bị để ký HĐMB.",
+        "answer": "514,500,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Dự án áp dụng chiết khấu 2% cho 200 khách hàng đầu tiên. Khách hàng Trần Anh Đức khớp căn sau khách thứ 200, mua căn hộ có giá niêm yết 3.5 tỷ đồng và lựa chọn vay tối đa 70% theo chính sách HTLS 0% trong 24 tháng.\n\nYêu cầu: Xác định số tiền ngân hàng giải ngân tối đa cho khách hàng.",
+        "answer": "2,450,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Khách hàng Trần Anh Đức mua căn hộ 3.5 tỷ đồng và chọn vay tối đa 70% theo chính sách HTLS 0% trong 24 tháng.\n\nYêu cầu: Xác định tổng số tiền khách hàng cần tự thanh toán để sở hữu căn hộ.",
+        "answer": "1,050,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Khách hàng Nguyễn Long mua căn hộ có giá sau chiết khấu là 3.43 tỷ đồng, yêu cầu vốn tự có ký HĐMB là 15%, và đã chuyển cọc trước 100 triệu đồng. Tại thời điểm ký HĐMB, khách hàng chỉ có thêm 415 triệu đồng.\n\nYêu cầu: Khách hàng dư/thiếu bao nhiêu tiền để ký HĐMB?",
+        "answer": "Dư 100,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Khách hàng họ Mạc mua căn hộ 3 tỷ đồng, vay 70%, được hỗ trợ lãi suất 0% trong 24 tháng kể từ ngày giải ngân đầu tiên 01/06/2026.\n\nYêu cầu: Xác định thời điểm chính sách HTLS chính thức hết hiệu lực.",
+        "answer": "01/06/2028",
+        "points": 30
+    },
+    {
+        "text": "Trong quản lý đất đai tại Việt Nam, loại đất nào sau đây người dân KHÔNG được phép xây dựng nhà ở kiên cố?\nA. Đất trồng lúa và đất rừng phòng hộ\nB. Đất ở đô thị\nC. Đất ở nông thôn\nD.Đất thuộc dự án khu đô thị mở",
+        "answer": "A",
+        "points": 10
+    },
+    {
+        "text": "Yếu tố nào được coi là quan trọng nhất trong việc quyết định giá trị của một bất động sản? \nA Uy tín của đơn vị thiết kế kiến trúc\nB. Vị trí của bất động sản\nC. Màu sơn bên ngoài của công trình\nD. Số lượng cây xanh trong khuôn viên",
+        "answer": "B",
+        "points": 10
+    },
+    {
+        "text": "Loại giấy tờ pháp lý nào sau đây thường được người dân gọi tên là “Sổ đỏ/Sổ hồng” để chứng minh quyền sử dụng đất?\nA. Giấy phép xây dựng tạm thời\nB. Giấy chứng nhận quyền sử dụng đất, quyền sở hữu nhà ở và tài sản khác gắn liền với đất\nC. Hợp đồng cho thuê nhà nguyên căn\nD. Bản vẽ thiết kế nội thất căn hộ",
+        "answer": "B",
+        "points": 10
+    },
+    {
+        "text": "Việc Nhà nước đầu tư xây dựng các tuyến đường giao thông mới hoặc công viên gần một khu dân cư thường làm cho giá trị bất động sản tại khu vực đó?\nA. Giảm đi vì quá ồn ào \nB. Tăng lên nhờ sự thuận tiện và tiện ích xung quanh\nC. Không thay đổi vì không liên quan đến nhà đất \nD. Biến mất hoàn toàn",
+        "answer": "B",
+        "points": 10
+    },
+    {
+        "text": "Các công trình nhà ở được thiết kế nhằm tối ưu hóa tiết kiệm năng lượng và sử dụng vật liệu thân thiện với môi trường được gọi chung là?\nA. Bất động sản xanh\nB. Bất động sản thương mại\nC. Bất động sản nghỉ dưỡng\nD. Bất động sản công nghiệp",
+        "answer": "A",
+        "points": 10
+    },
+    {
+        "text": "Theo quy định tại Luật Kinh doanh bất động sản 2023, ……… là nơi diễn ra các giao dịch và cung cấp dịch vụ liên quan đến kinh doanh bất động sản theo quy định của pháp luật?",
+        "answer": "Sàn giao dịch bất động sản",
+        "points": 20
+    },
+    {
+        "text": "Tại các khu đô thị mới, loại hình Bất động sản nào đang được ưa chuộng nhờ kết hợp giữa kinh doanh và nhà ở?",
+        "answer": "nhà phố thương mại/shophouse",
+        "points": 20
+    },
+    {
+        "text": "UBND TP Hà Nội vừa giao 16.060m2 đất tại khu đô thị Tây Hồ Tây để xây dựng nhà ở xã hội cho ….",
+        "answer": "Công an nhân dân/Lực lượng vũ trang Công an nhân dân",
+        "points": 20
+    },
+    {
+        "text": "Khi một môi giới bất động sản gia tăng số lượng khách hàng tiếp cận, thực hiện nhiều cuộc gọi telesale hơn và khảo sát nhiều dự án hơn, từ đó làm tăng khả năng chốt giao dịch thành công, hiện tượng này phản ánh quy luật triết học nào: “… đổi → … đổi”?",
+        "answer": "Lượng, chất",
+        "points": 20
+    },
+    {
+        "text": "Trong vụ án được đưa ra xét xử giai đoạn 2024–2025 liên quan đến hành vi thao túng thị trường chứng khoán và lừa đảo chiếm đoạt tài sản, cơ quan tố tụng xác định Công ty Cổ phần Xây dựng Faros (mã ROS) đã được nâng khống vốn điều lệ trong nhiều năm và từng giữ vai trò tổng thầu triển khai hàng loạt dự án bất động sản quy mô lớn như quần thể nghỉ dưỡng, sân golf, đô thị ven biển thuộc cùng một hệ sinh thái doanh nghiệp. Hệ sinh thái bất động sản này thuộc tập đoàn ..........?",
+        "answer": "FLC Group",
+        "points": 20
+    },
+    {
+        "text": "In real estate finance, what term refers to a property used by a borrower as a security pledge for a bank loan, which the lender can seize if the loan defaults?",
+        "answer": "Collateral",
+        "points": 20
+    },
+    {
+        "text": "Việc phân chia một khu đất lớn thành các lô đất nhỏ hơn để mua bán hoặc xây dựng gọi là gì?",
+        "answer": "Phân lô bán nền",
+        "points": 20
+    },
+    {
+        "text": "Theo thống kê về cơ cấu phát hành trên thị trường trái phiếu doanh nghiệp Việt Nam, các doanh nghiệp bất động sản thường là nhóm tổ chức phát hành lớn thứ mấy?",
+        "answer": "thứ 2",
+        "points": 20
+    },
+    {
+        "text": "Trong hoạt động cho vay mua nhà tại Việt Nam, loại hình lãi suất nào được các ngân hàng áp dụng phổ biến nhất đối với khoản vay mua bất động sản cá nhân?",
+        "answer": "Lãi suất thả nổi",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định pháp luật đất đai hiện hành, đối với các dự án bất động sản nghỉ dưỡng ven biển (như condotel, resort) được Nhà nước giao đất hoặc cho thuê đất để sử dụng vào mục đích thương mại, dịch vụ, thời hạn sử dụng đất thông thường tối đa là bao nhiêu năm?",
+        "answer": "50 năm",
+        "points": 20
+    },
+    {
+        "text": "Phương pháp nào dưới đây không phải là phương pháp tìm kiếm khách hàng online phổ biến trong môi giới bất động sản: đăng tin trên nền tảng bất động sản, chạy quảng cáo số (Facebook Ads/Google Ads), xây dựng nội dung trên TikTok/YouTube hay telesale gọi điện từ danh sách khách hàng?",
+        "answer": "Telesale gọi điện từ danh sách khách hàng",
+        "points": 20
+    },
+    {
+        "text": "……là cách gọi thực tế hiện tượng khi giá địa ốc tăng chóng mặt vượt xa giá trị thực, sau đó thị trường chững lại, sụt giảm mạnh hoặc đóng băng.",
+        "answer": "Bong bóng bất động sản",
+        "points": 20
+    },
+    {
+        "text": "Chiều 25/5/2026, tại Trụ sở Chính phủ, ai đã chủ trì cuộc họp với UBND thành phố Hà Nội cùng các bộ, ngành liên quan về phát triển nhà ở cho thuê, nhận định rằng nhà ở cho thuê là phân khúc chiến lược, dài hạn?",
+        "answer": "Thủ tướng Lê Minh Hưng",
+        "points": 20
+    },
+    {
+        "text": "Theo quy định tại Luật Kinh doanh bất động sản 2023, cơ quan chuyên môn về xây dựng thuộc UBND cấp tỉnh có thẩm quyền tổ chức kỳ thi, cấp chứng chỉ hành nghề môi giới bất động sản. Theo cơ cấu tổ chức hiện hành, cơ quan nào trực tiếp thực hiện nhiệm vụ này?",
+        "answer": "Sở Xây dựng",
+        "points": 20
+    },
+    {
+        "text": "…… is the term used to describe a luxury apartment located on the top floor of a building, typically featuring spacious layouts, premium design, and panoramic views?",
+        "answer": "Penthouse",
+        "points": 20
+    },
+    {
+        "text": "Chị Mai mua căn hộ tại dự án có giá niêm yết 4.5 tỷ đồng, thuộc 200 khách hàng đầu tiên được chiết khấu 2%. Theo chính sách, khách hàng cần chuẩn bị 15% vốn tự có trên giá trị căn hộ sau chiết khấu để đủ điều kiện ký HĐMB.\n\nYêu cầu: Xác định số vốn tự có tối thiểu chị Mai cần chuẩn bị để ký HĐMB.",
+        "answer": "661,500,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Anh Sơn mua căn hộ tại dự án có giá niêm yết 4.5 tỷ đồng, thuộc 200 khách hàng đầu tiên được chiết khấu 2%. Khách hàng lựa chọn phương án vay ngân hàng hỗ trợ lãi suất, nhưng chỉ vay 2.5 tỷ đồng (không vay tối đa) và sử dụng vốn tự có để thanh toán phần còn lại.\n\nYêu cầu: Xác định tổng số tiền vốn tự có anh Sơn phải thanh toán cho CĐT.",
+        "answer": "1,910,000,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Anh Độ mua căn hộ có diện tích thông thủy 75m² và được tặng miễn phí phí dịch vụ trong 2 năm đầu. Biết phí dịch vụ của dự án là 16,000 đồng/m²/tháng.\n\nYêu cầu: Xác định tổng giá trị quà tặng phí dịch vụ khách hàng tiết kiệm được trong 2 năm.",
+        "answer": "28,800,000 VNĐ",
+        "points": 30
+    },
+    {
+        "text": "Đại lý Solhomes tham gia phân phối Đợt 1 dự án The Diamond. Tại thời điểm chốt số liệu, toàn dự án ghi nhận 2,500 booking hợp lệ. Đại lý Solhomes ghi nhận 11 tỷ đồng booking, biết mỗi booking tương ứng 50 triệu đồng và không phát sinh hoàn/rút tiền.\n\nYêu cầu: Xác định tỷ trọng booking (%) của Đại lý Solhomes so với toàn dự án.",
+        "answer": "8.8%",
+        "points": 30
+    },
+    {
+        "text": "Đại lý Solhomes tham gia phân phối Đợt 1 dự án The Diamond. Toàn dự án mở bán 600 căn hộ. Đại lý Solhomes có tỷ trọng booking là 8.8% và tỷ trọng khách hàng phát sinh tại dự án là 15%. Chính sách phân bổ giỏ hàng của CĐT: 80% tỷ trọng booking + 20% tỷ trọng khách phát sinh.\n\nYêu cầu: Xác định số lượng căn hộ được phân bổ vào giỏ hàng riêng của Đại lý Solhomes (làm tròn đến hàng đơn vị).",
+        "answer": "60 căn",
+        "points": 30
+    }
+];
+
+
+
+        // --- CẤU HÌNH HỆ THỐNG ÂM THANH (AUDIO CONFIGURATION) ---
+        const AUDIO_CONFIG = {
+            bgMusic: 'Life Is C Between B and D LCK Music - LCK.mp3',
+            correct: 'mixkit-correct-answer-reward-952.wav',
+            wrong: 'mixkit-wrong-answer-fail-notification-946.wav',
+            skip: 'skip.wav',
+            click: 'mixkit-video-game-retro-click-237.wav',
+            victory: 'mixkit-game-level-completed-2059.wav'
+        };
+
+        const sounds = {
+            bgMusic: new Audio(AUDIO_CONFIG.bgMusic),
+            correct: new Audio(AUDIO_CONFIG.correct),
+            wrong: new Audio(AUDIO_CONFIG.wrong),
+            skip: new Audio(AUDIO_CONFIG.skip),
+            click: new Audio(AUDIO_CONFIG.click),
+            victory: new Audio(AUDIO_CONFIG.victory)
+        };
+
+        // Thiết lập cấu hình mặc định cho âm thanh
+        sounds.bgMusic.loop = true;
+        sounds.bgMusic.volume = 0.2; // Nhạc nền mặc định 20% âm lượng để không lấn át tiếng nói
+        
+        let isMuted = false;
+        let isMusicPlaying = false;
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 480; 
+        let timerInterval;
+        let isQuizActive = false; 
+        let isTransitioning = false; // Chống click trùng lặp khi đang hiện đáp án câu hiện tại 
+
+        // Hàm phát âm thanh an toàn (phòng tránh lỗi trình duyệt chặn autoplay)
+        function playSound(sound) {
+            if (isMuted || !sound) return;
+            sound.currentTime = 0; // Rewind về đầu để có thể phát liên tiếp nhanh
+            sound.play().catch(err => console.log("Lỗi phát âm thanh:", err));
+        }
+
+        // --- HÀM ĐIỀU KHIỂN NHẠC NỀN ---
+        function toggleBgMusic() {
+            playSound(sounds.click);
+            if (sounds.bgMusic.paused) {
+                sounds.bgMusic.play()
+                    .then(() => {
+                        isMusicPlaying = true;
+                        updateMusicUI(true);
+                    })
+                    .catch(err => {
+                        console.log("Trình duyệt chặn phát nhạc tự động:", err);
+                    });
+            } else {
+                sounds.bgMusic.pause();
+                isMusicPlaying = false;
+                updateMusicUI(false);
+            }
+        }
+
+        // Hàm giảm dần âm lượng nhạc nền rồi tắt (fade out) trong khoảng thời gian xác định
+        function fadeOutBgMusic(durationMs = 3000) {
+            const startVolume = sounds.bgMusic.volume;
+            // Nếu nhạc đã dừng sẵn hoặc âm lượng đã là 0, dừng ngay lập tức
+            if (sounds.bgMusic.paused || startVolume === 0) {
+                sounds.bgMusic.pause();
+                updateMusicUI(false);
+                return;
+            }
+            
+            const intervalTime = 50; // Cập nhật mỗi 50ms để hiệu ứng mượt mà
+            const steps = durationMs / intervalTime;
+            const volumeDecrease = startVolume / steps;
+            
+            let currentStep = 0;
+            const fadeInterval = setInterval(() => {
+                currentStep++;
+                let newVolume = startVolume - (volumeDecrease * currentStep);
+                if (newVolume <= 0) {
+                    newVolume = 0;
+                }
+                sounds.bgMusic.volume = newVolume;
+                
+                if (currentStep >= steps || newVolume <= 0) {
+                    clearInterval(fadeInterval);
+                    sounds.bgMusic.pause();
+                    // Khôi phục lại âm lượng ban đầu để sẵn sàng cho lần phát tiếp theo
+                    sounds.bgMusic.volume = startVolume;
+                    updateMusicUI(false);
+                }
+            }, intervalTime);
+        }
+
+        function changeBgVolume(volume) {
+            sounds.bgMusic.volume = volume;
+            const pct = Math.round(volume * 100);
+            document.getElementById('volume-pct').innerText = pct + "%";
+        }
+
+        function toggleMute() {
+            // Phát click TRƯỚC khi thay đổi trạng thái mute
+            if (!isMuted) {
+                playSound(sounds.click);
+            }
+            isMuted = !isMuted;
+            for (let key in sounds) {
+                sounds[key].muted = isMuted;
+            }
+            // Phát click khi unmute (trạng thái mới = false)
+            if (!isMuted) {
+                playSound(sounds.click);
+            }
+            updateMuteUI(isMuted);
+        }
+
+        function updateMusicUI(isPlaying) {
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const visualizer = document.getElementById('visualizer');
+            
+            if (isPlaying) {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                visualizer.classList.add('playing');
+            } else {
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                visualizer.classList.remove('playing');
+            }
+        }
+
+        function updateMuteUI(muted) {
+            const onIcon = document.getElementById('volume-on-icon');
+            const offIcon = document.getElementById('volume-off-icon');
+            const visualizer = document.getElementById('visualizer');
+            
+            if (muted) {
+                onIcon.style.display = 'none';
+                offIcon.style.display = 'block';
+                visualizer.classList.remove('playing');
+            } else {
+                onIcon.style.display = 'block';
+                offIcon.style.display = 'none';
+                if (!sounds.bgMusic.paused) {
+                    visualizer.classList.add('playing');
+                }
+            }
+        }
+
+        // --- CÁC HÀM XỬ LÝ TRÒ CHƠI ---
+        function startQuiz() {
+            if (!selectedTeam) return;
+            playSound(sounds.click);
+            
+            document.getElementById('team-name-display').innerText = selectedTeam;
+            document.getElementById('final-team').innerText = selectedTeam;
+
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('start-credit').style.display = 'none'; // Hide viewport credit on quiz start
+            document.getElementById('top-bar').style.display = 'flex';
+            document.getElementById('question-container').style.display = 'flex';
+
+            // Nạp bộ câu hỏi tương ứng cho đội thi đã chọn
+            if (teamQuestionPools[selectedTeam]) {
+                questions = teamQuestionPools[selectedTeam].map(index => allQuestions[index]);
+            } else {
+                questions = allQuestions;
+            }
+
+            isQuizActive = true;
+            updateUI();
+            startTimer();
+
+            // Khởi động nhạc nền
+            sounds.bgMusic.play()
+                .then(() => {
+                    isMusicPlaying = true;
+                    updateMusicUI(true);
+                })
+                .catch(err => {
+                    console.log("Trình duyệt chặn autoplay nhạc nền. Nhạc nền sẽ chạy khi tương tác trực tiếp.", err);
+                    isMusicPlaying = false;
+                    updateMusicUI(false);
+                });
+        }
+
+        function restartQuiz() {
+            playSound(sounds.click);
+            setTimeout(() => {
+                location.reload(); 
+            }, 150);
+        }
+
+        function updateUI() {
+            if (currentQuestionIndex < questions.length) {
+                const q = questions[currentQuestionIndex];
+                
+                // Hiệu ứng đổi câu hỏi mượt mà
+                const qText = document.getElementById('question-text');
+                qText.style.animation = 'none';
+                qText.offsetHeight; // Trigger reflow
+                qText.style.animation = 'slideUpFade 0.5s ease-out';
+
+                document.getElementById('question-index').innerText = (currentQuestionIndex + 1);
+                document.getElementById('points-value').innerText = q.points;
+                
+                // Thiết lập văn bản và làm sạch khoảng trắng cho câu 30 điểm
+                let cleanText = q.text;
+                if (q.points === 30) {
+                    cleanText = q.text.replace(/\n\s*\n+/g, '\n').trim();
+                }
+                qText.innerText = cleanText;
+
+                // Mặc định cỡ chữ ban đầu là 26px (bằng gói 10 và 20 điểm)
+                qText.style.fontSize = '26px';
+
+                // Tự động tối ưu cỡ chữ đối với các câu hỏi 30 điểm nếu bị tràn/phải scroll
+                if (q.points === 30) {
+                    const parent = document.getElementById('question-text-wrapper');
+                    let currentSize = 26;
+                    const minSize = 17; // Giới hạn cỡ chữ nhỏ nhất để đảm bảo tính dễ đọc
+                    
+                    // Thu nhỏ cỡ chữ từng bước cho đến khi vừa khít khung hoặc chạm giới hạn dưới
+                    while (parent.scrollHeight > parent.clientHeight && currentSize > minSize) {
+                        currentSize--;
+                        qText.style.fontSize = currentSize + 'px';
+                    }
+                }
+                
+                // Đóng và ẩn đáp án, dọn dẹp các class trạng thái
+                const answerBox = document.getElementById('answer-box');
+                answerBox.classList.remove('show', 'wrong', 'skip');
+                document.getElementById('answer-text').innerText = ''; // Xóa chữ đáp án khi tải câu mới
+                document.getElementById('score').innerText = score;
+            } else {
+                clearInterval(timerInterval);
+                endGame(false);
+            }
+        }
+
+
+
+        function answer(type) {
+            if (currentQuestionIndex >= questions.length || !isQuizActive || isTransitioning) return;
+
+            // Khóa tương tác tạm thời để chống click trùng lặp khi đang hiện đáp án 1s
+            isTransitioning = true;
+
+            const q = questions[currentQuestionIndex];
+            const answerBox = document.getElementById('answer-box');
+            
+            // Dọn dẹp trạng thái màu cũ
+            answerBox.classList.remove('wrong', 'skip');
+
+            // 1. Cấu hình màu sắc dựa trên kết quả
+            if (type === 'wrong') {
+                answerBox.classList.add('wrong'); // Chuyển ô sang màu đỏ
+            } else if (type === 'skip') {
+                answerBox.classList.add('skip');   // Chuyển ô sang màu xám
+            }
+
+            // Hiển thị đáp án ngay lập tức trên màn hình
+            document.getElementById('answer-text').innerText = q.answer;
+            answerBox.classList.add('show');
+
+            // 2. Tính điểm và phát âm thanh tương ứng
+            if (type === 'correct') {
+                score += q.points; 
+                playSound(sounds.correct);
+            } else if (type === 'wrong') {
+                score -= (q.points / 2); 
+                playSound(sounds.wrong);
+            } else if (type === 'skip') {
+                playSound(sounds.skip);
+            }
+            
+            
+            // Cập nhật điểm số ngay lập tức trên thanh trạng thái
+            document.getElementById('score').innerText = score;
+            
+            // 3. Đợi đúng 1 giây (1000ms) rồi mới dọn dẹp và chuyển sang câu hỏi mới
+            setTimeout(() => {
+                // Ẩn và xóa chữ đáp án khi hết 1s
+                answerBox.classList.remove('show', 'wrong', 'skip');
+                document.getElementById('answer-text').innerText = '';
+
+                // Chuyển sang câu tiếp theo
+                currentQuestionIndex++;
+                updateUI();
+
+                // Mở khóa để MC tiếp tục tương tác
+                isTransitioning = false;
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('timer-value').innerText = 
+                (minutes < 10 ? "0" : "") + minutes + ":" + 
+                (seconds < 10 ? "0" : "") + seconds;
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                // Phát hiệu ứng nhấp nháy cảnh báo nếu còn dưới 10 giây
+                if (timeLeft === 10) {
+                    document.getElementById('timer-value').style.animation = 'timerPulse 0.8s infinite ease-in-out';
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame(true);
+                }
+            }, 1000);
+        }
+
+        function endGame(isTimeOut) {
+            isQuizActive = false; 
+            
+            // Dừng nhạc nền từ từ (fade out trong 3s) và phát nhạc chiến thắng/kết thúc
+            fadeOutBgMusic(3000);
+            playSound(sounds.victory);
+
+            document.getElementById('top-bar').style.display = 'none';
+            document.getElementById('question-container').style.display = 'none';
+            document.getElementById('finish-screen').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+
+            if (isTimeOut) {
+                document.getElementById('finish-title').innerHTML = "HẾT GIỜ!";
+                document.getElementById('finish-title').style.color = "var(--error)";
+            }
+        }
+
+        // --- XỬ LÝ SỰ KIỆN BÀN PHÍM ---
+        document.addEventListener('keydown', function(event) {
+            // Nhấn Enter để bắt đầu
+            if (event.key === 'Enter' && !isQuizActive && document.getElementById('start-screen').style.display !== 'none') {
+                startQuiz();
+                return;
+            }
+
+            // Nhấn R để reload — chỉ cho phép khi KHÔNG đang thi, hoặc yêu cầu xác nhận nếu đang thi
+            if (event.key.toLowerCase() === 'r') {
+                if (isQuizActive) {
+                    if (confirm('⚠️ Đang thi đấu! Bạn có chắc chắn muốn quay lại màn hình chính? Mọi tiến trình sẽ bị mất.')) {
+                        restartQuiz();
+                    }
+                } else {
+                    restartQuiz();
+                }
+                return;
+            }
+
+            // Nhấn M để bật tắt tiếng nhanh
+            if (event.key.toLowerCase() === 'm') {
+                toggleMute();
+                return;
+            }
+
+            // Nhấn P để bật tắt nhạc nền nhanh
+            if (event.key.toLowerCase() === 'p') {
+                if (isQuizActive) {
+                    toggleBgMusic();
+                }
+                return;
+            }
+
+            if (!isQuizActive || isTransitioning) return;
+
+            // Phím tắt trong quá trình thi đấu: Đúng [1], Sai [2], Bỏ qua [3]
+            if (event.key === '1') {
+                answer('correct');
+            } else if (event.key === '2') {
+                answer('wrong');
+            } else if (event.key === '3') {
+                answer('skip');
+            }
+        });
+    </script>
+</body>
+</html>

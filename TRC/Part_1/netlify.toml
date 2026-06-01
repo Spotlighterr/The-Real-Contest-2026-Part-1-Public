@@ -1,0 +1,4 @@
+# Netlify configuration file inside the Part_1 folder
+
+[build]
+  publish = "."

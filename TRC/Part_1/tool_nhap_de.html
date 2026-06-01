@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Quản Lý Câu Hỏi - The Real Contest 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --canvas: #030307; 
+            --glass-bg: rgba(255, 255, 255, 0.035);
+            --glass-bg-hover: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border-hover: rgba(255, 255, 255, 0.2);
+            
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            --accent-hover: #818cf8;
+            
+            --ink: #ffffff;
+            --ink-muted: #cbd5e1; 
+            --ink-subtle: #94a3b8; 
+            
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.25);
+            --error: #ef4444;
+            --error-glow: rgba(239, 68, 68, 0.25);
+            --warning: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.25);
+            
+            --rounded-sm: 8px;
+            --rounded-md: 12px;
+            --rounded-lg: 24px;
+            --rounded-full: 9999px;
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--canvas);
+            color: var(--ink);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- NỀN SHIFTING BLURRED MESH --- */
+        .glow-blob {
+            position: absolute;
+            border-radius: var(--rounded-full);
+            filter: blur(140px);
+            -webkit-filter: blur(140px);
+            z-index: -1;
+            opacity: 0.12;
+            pointer-events: none;
+            animation: floatBlob 25s infinite alternate ease-in-out;
+        }
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            top: -100px;
+            left: 5%;
+        }
+        .blob-2 {
+            width: 450px;
+            height: 450px;
+            background: #a855f7; /* Tím */
+            bottom: 5%;
+            right: 5%;
+            animation-delay: -6s;
+        }
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--success);
+            top: 40%;
+            left: 45%;
+            opacity: 0.05;
+            animation-delay: -12s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 60px) scale(1.1); }
+            100% { transform: translate(-30px, -40px) scale(0.95); }
+        }
+
+        header {
+            width: 95%;
+            max-width: 1400px;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(24px, 3.5vw, 36px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 40%, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--ink-subtle);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+        }
+
+        /* --- VÙNG LÀM VIỆC CHÍNH (MAIN WORKSPACE) --- */
+        .workspace {
+            width: 95%;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            z-index: 1;
+            animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- THANH TRẠNG THÁI & CHỌN FILE (TOP PANEL) --- */
+        .top-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-md);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: var(--transition-smooth);
+        }
+
+        .top-panel:hover {
+            border-color: var(--glass-border-hover);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: var(--rounded-full);
+            background-color: var(--error);
+            box-shadow: 0 0 10px var(--error);
+            transition: var(--transition-smooth);
+        }
+
+        .status-dot.active {
+            background-color: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .file-status-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink-muted);
+        }
+
+        .btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            padding: 12px 24px;
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-sm);
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: white;
+            box-shadow: 0 6px 20px var(--success-glow);
+        }
+
+        /* --- BỐ CỤC HAI CỘT (TWO COLUMNS WORKSPACE) --- */
+        .main-editor {
+            display: grid;
+            grid-template-columns: 1.2fr 1.8fr;
+            gap: 25px;
+            min-height: 700px;
+        }
+
+        @media (max-width: 950px) {
+            .main-editor {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- CỘT TRÁI: DANH SÁCH CÂU HỎI (LEFT PANEL) --- */
+        .list-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-md);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .list-panel:hover {
+            border-color: var(--glass-border-hover);
+        }
+
+        /* Tabs của 4 đội */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--ink-subtle);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 15px 5px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            letter-spacing: 0.05em;
+        }
+
+        .tab-btn:hover {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-hover);
+            border-bottom-color: var(--accent);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .questions-scroll-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 650px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .question-item-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--rounded-sm);
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .question-item-card:hover {
+            background: var(--glass-bg-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(3px);
+        }
+
+        .question-item-card.active {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: var(--accent);
+            box-shadow: inset 0 0 10px rgba(99, 102, 241, 0.15);
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-index-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-subtle);
+        }
+
+        .point-badge {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: var(--rounded-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .point-10 {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .point-20 {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .point-30 {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .question-text-preview {
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--ink-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* --- CỘT PHẢI: FORM CHỈNH SỬA CHI TIẾT (FORM PANEL) --- */
+        .form-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-md);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: left;
+            transition: var(--transition-smooth);
+        }
+
+        .form-panel:hover {
+            border-color: var(--glass-border-hover);
+        }
+
+        .form-header {
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-hover);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-control {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-sm);
+            padding: 12px 16px;
+            color: var(--ink);
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: var(--transition-smooth);
+            width: 100%;
+        }
+
+        .input-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        textarea.input-control {
+            resize: vertical;
+            min-height: 180px;
+            line-height: 1.5;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink-muted);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .radio-input {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--rounded-full);
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .radio-input:checked {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .radio-input:checked::before {
+            content: "";
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-hover);
+            border-radius: var(--rounded-full);
+            box-shadow: 0 0 5px var(--accent-hover);
+        }
+
+        .placeholder-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 400px;
+            color: var(--ink-subtle);
+            gap: 15px;
+        }
+
+        .placeholder-icon {
+            opacity: 0.25;
+            animation: pulse 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.2; }
+            100% { transform: scale(1.05); opacity: 0.35; }
+        }
+
+        /* --- THÔNG BÁO POPUP (TOAST NOTIFICATIONS) --- */
+        .toast-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--accent);
+            padding: 16px 24px;
+            border-radius: var(--rounded-sm);
+            color: var(--ink);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: var(--transition-smooth);
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--error);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(110%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .team-title-banner {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-align: center;
+            padding: 6px 12px;
+            border-radius: var(--rounded-sm);
+            margin-bottom: 5px;
+        }
+
+        .banner-VISTANIAN { background: rgba(236, 72, 153, 0.15); color: #fbcfe8; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .banner-M2D { background: rgba(168, 85, 247, 0.15); color: #e9d5ff; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .banner-SOLAIRE { background: rgba(245, 158, 11, 0.15); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .banner-ATLAS_CITY { background: rgba(59, 130, 246, 0.15); color: #bfdbfe; border: 1px solid rgba(59, 130, 246, 0.3); }
+    </style>
+</head>
+<body>
+
+    <!-- Blobs phát sáng chuyển động ở nền -->
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
+
+    <header>
+        <h1>BỘ QUẢN LÝ CÂU HỎI TRỰC TIẾP</h1>
+        <div class="subtitle">The Real Contest 2026 - Vòng Chung Kết</div>
+    </header>
+
+    <div class="workspace">
+        <!-- THANH CHỌN FILE -->
+        <div class="top-panel">
+            <div class="file-info">
+                <div class="status-dot" id="status-dot"></div>
+                <div class="file-status-text" id="file-status-text">Chưa chọn tệp index.html</div>
+            </div>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-primary" onclick="openFile()" id="btn-open">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    CHỌN TỆP INDEX.HTML
+                </button>
+                <button class="btn btn-success" onclick="saveFile()" id="btn-save" style="display: none;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    LƯU THAY ĐỔI VÀO FILE
+                </button>
+            </div>
+        </div>
+
+        <!-- MÀN HÌNH CHƯA MỞ FILE -->
+        <div class="list-panel" id="unloaded-container" style="padding: 100px 30px;">
+            <div class="placeholder-message">
+                <svg class="placeholder-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-hover)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                <h3 style="font-size: 18px; font-weight: 700; color: var(--ink);">Chưa có tệp nào được mở</h3>
+                <p style="font-size: 14px; max-width: 450px; line-height: 1.5; color: var(--ink-subtle);">Vui lòng nhấn nút <strong>"Chọn tệp index.html"</strong> phía trên để tải và cấu trúc trực quan mảng câu hỏi của cuộc thi.</p>
+            </div>
+        </div>
+
+        <!-- WORKSPACE BIÊN TẬP (CHỈ HIỆN KHI ĐÃ LOAD) -->
+        <div class="main-editor" id="loaded-editor" style="display: none;">
+            
+            <!-- CỘT TRÁI: TABS VÀ DANH SÁCH CÂU HỎI -->
+            <div class="list-panel">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTeam('VISTANIAN')" id="tab-VISTANIAN">VISTANIAN</button>
+                    <button class="tab-btn" onclick="switchTeam('M2D')" id="tab-M2D">M2D</button>
+                    <button class="tab-btn" onclick="switchTeam('SOLAIRE')" id="tab-SOLAIRE">SOLAIRE</button>
+                    <button class="tab-btn" onclick="switchTeam('ATLAS CITY')" id="tab-ATLAS_CITY">ATLAS CITY</button>
+                </div>
+                
+                <div class="questions-scroll-area" id="questions-list">
+                    <!-- Danh sách câu hỏi render động từ JS -->
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI: FORM CHỈNH SỬA -->
+            <div class="form-panel" id="editor-form-panel">
+                <!-- Giao diện placeholder ban đầu -->
+                <div class="placeholder-message" id="editor-placeholder">
+                    <svg class="placeholder-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    <p style="font-size: 14px;">Chọn một câu hỏi ở danh sách bên trái để chỉnh sửa thông tin chi tiết</p>
+                </div>
+
+                <!-- Form chỉnh sửa (Ẩn cho đến khi click chọn câu hỏi) -->
+                <div id="editor-form-content" style="display: none; height: 100%; width: 100%;">
+                    <div class="form-header">
+                        <div class="form-title" id="edit-question-title">Chỉnh sửa câu hỏi #...</div>
+                        <div class="team-title-banner" id="edit-team-banner">VISTANIAN</div>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;">
+                        <div class="form-group">
+                            <label for="input-text">Nội dung câu hỏi</label>
+                            <textarea class="input-control" id="input-text" placeholder="Nhập nội dung câu hỏi. Để ngắt dòng (ví dụ phương án trắc nghiệm A, B, C, D), hãy Enter để xuống dòng tự nhiên..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="input-answer">Đáp án chính xác</label>
+                            <input type="text" class="input-control" id="input-answer" placeholder="Nhập đáp án đúng...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Mức điểm của câu</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="points" value="10" class="radio-input" id="point-radio-10">
+                                    10 Điểm
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="points" value="20" class="radio-input" id="point-radio-20">
+                                    20 Điểm
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="points" value="30" class="radio-input" id="point-radio-30">
+                                    30 Điểm
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                            <button class="btn btn-primary" onclick="updateQuestionInMemory()" style="width: 100%; padding: 15px;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                XÁC NHẬN CẬP NHẬT CÂU HỎI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST MESSAGES -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        let fileHandle = null;
+        let fileContent = "";
+        let questions = [];
+        let currentTeam = "VISTANIAN";
+        let selectedQuestionIndex = null;
+
+        const teamQuestionRanges = {
+            "VISTANIAN": { start: 0, end: 24, count: 25 },
+            "M2D": { start: 25, end: 49, count: 25 },
+            "SOLAIRE": { start: 50, end: 74, count: 25 },
+            "ATLAS CITY": { start: 75, end: 99, count: 25 }
+        };
+
+        // Hàm hiện popup thông báo
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            if (type === 'error') {
+                icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+            }
+            
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        // Mở file index.html qua File System Access API
+        async function openFile() {
+            try {
+                const [handle] = await window.showOpenFilePicker({
+                    types: [{
+                        description: 'Tệp HTML Vòng Chung Kết',
+                        accept: { 'text/html': ['.html'] }
+                    }],
+                    multiple: false
+                });
+                
+                fileHandle = handle;
+                const file = await fileHandle.getFile();
+                fileContent = await file.text();
+                
+                parseQuestions(fileContent);
+                
+                // Cập nhật trạng thái giao diện
+                document.getElementById('status-dot').className = 'status-dot active';
+                document.getElementById('file-status-text').innerText = `Đã mở: ${file.name}`;
+                document.getElementById('unloaded-container').style.display = 'none';
+                document.getElementById('loaded-editor').style.display = 'grid';
+                document.getElementById('btn-save').style.display = 'inline-flex';
+                
+                switchTeam("VISTANIAN");
+                showToast("Tải dữ liệu tệp index.html thành công!");
+            } catch (err) {
+                console.error(err);
+                if (err.name !== 'AbortError') {
+                    showToast("Lỗi khi mở tệp: " + err.message, "error");
+                }
+            }
+        }
+
+        // Tách lọc mảng allQuestions trong tệp HTML
+        function parseQuestions(content) {
+            const startMarker = "const allQuestions = [";
+            const endMarker = "const AUDIO_CONFIG = {";
+            
+            const startIndex = content.indexOf(startMarker);
+            if (startIndex === -1) {
+                throw new Error("Không tìm thấy biến 'allQuestions' trong tệp index.html.");
+            }
+            
+            const endIndex = content.indexOf(endMarker, startIndex);
+            if (endIndex === -1) {
+                throw new Error("Không tìm thấy cấu hình âm thanh (AUDIO_CONFIG) trong tệp index.html.");
+            }
+            
+            const arrayStart = startIndex + startMarker.length - 1; // Vị trí dấu '['
+            const searchSub = content.substring(arrayStart, endIndex);
+            const lastClosingBracket = searchSub.lastIndexOf("];");
+            if (lastClosingBracket === -1) {
+                throw new Error("Không tìm thấy dấu đóng mảng '];' của allQuestions.");
+            }
+            
+            const arrayString = searchSub.substring(0, lastClosingBracket + 1); // Cắt lấy mảng hoàn chỉnh
+            
+            try {
+                // Parse mảng JS an toàn bằng new Function
+                questions = new Function(`return ${arrayString}`)();
+                
+                if (!Array.isArray(questions)) {
+                    throw new Error("Dữ liệu allQuestions không phải là một mảng.");
+                }
+                
+                if (questions.length < 100) {
+                    // Nếu mảng thiếu 100 câu, điền thêm các câu hỏi trống để đủ 100 tránh lỗi chỉ số
+                    while (questions.length < 100) {
+                        questions.push({ text: "Câu hỏi trống bổ sung", answer: "Trống", points: 10 });
+                    }
+                }
+            } catch (parseErr) {
+                console.error(parseErr);
+                throw new Error("Lỗi cú pháp khi phân tích mảng câu hỏi: " + parseErr.message);
+            }
+        }
+
+        // Chuyển tab đội thi
+        function switchTeam(teamName) {
+            currentTeam = teamName;
+            
+            // Đổi trạng thái tab
+            const tabs = ['VISTANIAN', 'M2D', 'SOLAIRE', 'ATLAS CITY'];
+            tabs.forEach(t => {
+                const elId = `tab-${t.replace(' ', '_')}`;
+                const btn = document.getElementById(elId);
+                if (t === teamName) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            renderQuestionsList();
+        }
+
+        // Hiển thị danh sách 25 câu hỏi của đội thi hiện tại
+        function renderQuestionsList() {
+            const listContainer = document.getElementById('questions-list');
+            listContainer.innerHTML = "";
+            
+            const range = teamQuestionRanges[currentTeam];
+            
+            for (let i = range.start; i <= range.end; i++) {
+                const q = questions[i];
+                if (!q) continue;
+                
+                const card = document.createElement('div');
+                card.className = `question-item-card ${selectedQuestionIndex === i ? 'active' : ''}`;
+                card.onclick = () => selectQuestion(i);
+                
+                card.innerHTML = `
+                    <div class="question-meta">
+                        <span class="question-index-badge">Câu #${i + 1} (Index ${i})</span>
+                        <span class="point-badge point-${q.points}">${q.points} Điểm</span>
+                    </div>
+                    <div class="question-text-preview">${escapeHtml(q.text)}</div>
+                `;
+                listContainer.appendChild(card);
+            }
+        }
+
+        // Chọn câu hỏi để hiển thị lên Form biên tập
+        function selectQuestion(idx) {
+            selectedQuestionIndex = idx;
+            
+            // Reset trạng thái card list để làm nổi bật câu được chọn
+            renderQuestionsList();
+            
+            const q = questions[idx];
+            document.getElementById('editor-placeholder').style.display = 'none';
+            document.getElementById('editor-form-content').style.display = 'block';
+            
+            document.getElementById('edit-question-title').innerText = `Biên tập câu #${idx + 1} (Index ${idx})`;
+            
+            const banner = document.getElementById('edit-team-banner');
+            banner.innerText = currentTeam;
+            banner.className = `team-title-banner banner-${currentTeam.replace(' ', '_')}`;
+            
+            // Đổ dữ liệu vào input
+            document.getElementById('input-text').value = q.text;
+            document.getElementById('input-answer').value = q.answer;
+            
+            // Check radio điểm tương ứng
+            document.getElementById('point-radio-10').checked = q.points == 10;
+            document.getElementById('point-radio-20').checked = q.points == 20;
+            document.getElementById('point-radio-30').checked = q.points == 30;
+        }
+
+        // Lưu tạm câu hỏi vừa chỉnh sửa vào mảng trong bộ nhớ RAM
+        function updateQuestionInMemory() {
+            if (selectedQuestionIndex === null) return;
+            
+            const textValue = document.getElementById('input-text').value.trim();
+            const answerValue = document.getElementById('input-answer').value.trim();
+            
+            let pointsValue = 10;
+            if (document.getElementById('point-radio-20').checked) pointsValue = 20;
+            if (document.getElementById('point-radio-30').checked) pointsValue = 30;
+            
+            if (!textValue || !answerValue) {
+                showToast("Vui lòng điền đầy đủ nội dung câu hỏi và đáp án!", "error");
+                return;
+            }
+            
+            questions[selectedQuestionIndex] = {
+                text: textValue,
+                answer: answerValue,
+                points: Number(pointsValue)
+            };
+            
+            showToast(`Cập nhật câu #${selectedQuestionIndex + 1} vào bộ nhớ tạm thành công!`);
+            renderQuestionsList();
+        }
+
+        // Định dạng mảng câu hỏi thành khối mã JS đẹp đẽ
+        function formatQuestionsArray(qArray) {
+            let jsStr = "const allQuestions = [\n";
+            qArray.forEach((q, idx) => {
+                // Escape dấu nháy kép và dấu xẹt ngược an toàn, giữ nguyên các ký tự \n của xuống dòng
+                const escapedText = q.text
+                    .replace(/\\/g, '\\\\')
+                    .replace(/"/g, '\\"')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\r/g, '');
+                    
+                const escapedAnswer = q.answer
+                    .replace(/\\/g, '\\\\')
+                    .replace(/"/g, '\\"');
+                
+                jsStr += `    {\n`;
+                jsStr += `        "text": "${escapedText}",\n`;
+                jsStr += `        "answer": "${escapedAnswer}",\n`;
+                jsStr += `        "points": ${q.points}\n`;
+                jsStr += `    }${idx < qArray.length - 1 ? ',' : ''}\n`;
+            });
+            jsStr += "];";
+            return jsStr;
+        }
+
+        // Lưu đè trực tiếp mảng câu hỏi đã chỉnh sửa vào tệp index.html cục bộ
+        async function saveFile() {
+            if (!fileHandle) {
+                showToast("Bạn chưa chọn tệp index.html nguồn nào để lưu!", "error");
+                return;
+            }
+            
+            try {
+                // Đảm bảo cập nhật câu hỏi đang mở trên form vào bộ nhớ trước khi lưu
+                if (selectedQuestionIndex !== null) {
+                    updateQuestionInMemory();
+                }
+
+                const startMarker = "const allQuestions = [";
+                const endMarker = "const AUDIO_CONFIG = {";
+                
+                const startIndex = fileContent.indexOf(startMarker);
+                if (startIndex === -1) {
+                    throw new Error("Không tìm thấy biến 'allQuestions' trong file index.html.");
+                }
+                
+                const endIndex = fileContent.indexOf(endMarker, startIndex);
+                if (endIndex === -1) {
+                    throw new Error("Không tìm thấy cấu hình âm thanh AUDIO_CONFIG.");
+                }
+                
+                const arrayStart = startIndex + startMarker.length - 1;
+                const searchSub = fileContent.substring(arrayStart, endIndex);
+                const lastClosingBracket = searchSub.lastIndexOf("];");
+                
+                if (lastClosingBracket === -1) {
+                    throw new Error("Không tìm thấy dấu đóng mảng ];.");
+                }
+                
+                const fullOriginalArrayBlock = fileContent.substring(startIndex, arrayStart + lastClosingBracket + 2);
+                const newArrayBlock = formatQuestionsArray(questions);
+                
+                // Tạo nội dung mới cho file
+                const updatedContent = fileContent.replace(fullOriginalArrayBlock, newArrayBlock);
+                
+                // Ghi đè vào tệp thông qua File System Access API
+                const writable = await fileHandle.createWritable();
+                await writable.write(updatedContent);
+                await writable.close();
+                
+                // Cập nhật lại chuỗi fileContent trong bộ nhớ RAM để khớp với file đã ghi đè
+                fileContent = updatedContent;
+                
+                showToast("Đã lưu trực tiếp toàn bộ 100 câu hỏi vào file index.html thành công!", "success");
+            } catch (err) {
+                console.error(err);
+                showToast("Ghi tệp thất bại: " + err.message, "error");
+            }
+        }
+
+        // Tiện ích chống XSS cơ bản
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
